@@ -1,0 +1,64 @@
+version: '3' 
+
+silent: true
+
+tasks:
+  build:
+    desc: Сборка всех контейнеров
+    cmds:
+      - docker compose build
+
+  up-lt:
+    desc: Запуск всех сервисов и localtunnel
+    cmds:
+      - docker compose up -d
+      - sleep 1
+      - lt --port 3000 --subdomain my-bot
+
+  down:
+    desc: Остановка всех сервисов
+    cmds:
+      - docker compose down
+
+  shell:
+    desc: Попасть в контейнер php
+    cmds:
+      - docker exec -it app sh
+
+  logs:
+    desc: Просмотр логов
+    cmds:
+      - docker compose logs -f
+
+  pint:
+    desc: Запуск laravel pint
+    cmds:
+      - docker compose exec -t app ./vendor/bin/pint
+
+  stan:
+    desc: Запуск phpstan
+    cmds:
+      - docker compose exec -t app ./vendor/bin/phpstan analyse --debug --memory-limit=1G
+
+  test:
+    desc: Запуск тестов
+    cmds:
+      - docker compose exec -t app php artisan test
+
+  composer-install:
+    desc: Запуск composer install
+    cmds:
+      - docker compose exec app composer install
+
+  composer-install:
+    desc: Запуск composer update
+    cmds:
+      - docker compose exec app composer update
+
+  prep:
+    desc: Подготовка перед коммитом 
+    cmds:
+      - task: up 
+      - task: pint
+      - task: stan
+      - task: test

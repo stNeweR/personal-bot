@@ -1,0 +1,63 @@
+name: CI pipeline for DEV branch
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  ci:
+    runs-on: debian-latest
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'  # или ваша версия PHP
+          tools: composer:2.8.11
+          extensions: mbstring, dom, curl, zip, pdo, sqlite, pdo_sqlite, gd, bcmath, intl
+          coverage: none
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --strict
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Copy .env for testing
+        run: cp .env.example .env
+
+      - name: Generate application key
+        run: php artisan key:generate
+
+      - name: Run Laravel Pint (style check)
+        run: ./vendor/bin/pint --test
+        continue-on-error: false
+
+      - name: Run PHPStan (static analysis)
+        run: ./vendor/bin/phpstan analyse --memory-limit=2G
+        continue-on-error: false
+
+      - name: Run Tests
+        run: php artisan test --colors=always
+        continue-on-error: false
+
+      - name: 🎉 All checks passed!
+        run: echo "✅ Code style, static analysis and tests passed successfully."
