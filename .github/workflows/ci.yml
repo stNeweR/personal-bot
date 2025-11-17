@@ -10,7 +10,7 @@ on:
 
 jobs:
   ci:
-    runs-on: debian-latest
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./src
