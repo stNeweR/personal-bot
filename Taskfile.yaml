@@ -1,4 +1,4 @@
-version: '3' 
+version: "3"
 
 silent: true
 
@@ -50,15 +50,14 @@ tasks:
     cmds:
       - docker compose exec app composer install
 
-  composer-install:
+  composer-update:
     desc: Запуск composer update
     cmds:
       - docker compose exec app composer update
 
   prep:
-    desc: Подготовка перед коммитом 
+    desc: Подготовка перед коммитом
     cmds:
-      - task: up 
       - task: pint
       - task: stan
       - task: test
