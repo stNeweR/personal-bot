@@ -1,7 +1,6 @@
 <?php
 
+use App\Core\Telegram\Presentation\Http\Controllers\TelegramWebhookController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('telegram-webhook', function () {
-    return response()->json(['data' => 'test']);
-});
+Route::post('telegram-webhook', [TelegramWebhookController::class, 'handleWebhook']);
