@@ -2,11 +2,10 @@
 
 namespace App\Core\Telegram\Application\Strategies\Command;
 
-use;
 use App\Core\Telegram\Application\DTOs\TelegramUpdateDTO;
 use App\Core\Telegram\Application\Handlers\Command\CommandHandlerDTO;
 use App\Core\Telegram\Application\Handlers\Command\CommandHandlerInterface;
-use App\Core\Telegram\Exceptions\UnknownCommandException;
+use App\Core\Telegram\Domain\Exceptions\UnknownCommandException;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Log;
 

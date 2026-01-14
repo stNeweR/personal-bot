@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Core\Telegram\UseCases;
+namespace App\Core\Telegram\Application\UseCases;
 
-use App\Core\Telegram\Exceptions\SetWebhookException;
-use App\Core\Telegram\Services\Telegram\TelegramApiService;
+use App\Core\Telegram\Domain\Exceptions\SetWebhookException;
+use App\Core\Telegram\Infrastructure\Services\Telegram\TelegramApiService;
 
 final readonly class SetTelegramWebhookHandler
 {

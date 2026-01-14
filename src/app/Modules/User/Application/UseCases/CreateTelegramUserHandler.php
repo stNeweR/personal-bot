@@ -3,8 +3,8 @@
 namespace App\Modules\User\Application\UseCases;
 
 use App\Core\Telegram\Application\Handlers\Command\CommandHandlerDTO;
-use App\Core\Telegram\Services\Telegram\DTOs\SendMessageDTO;
-use App\Core\Telegram\Services\Telegram\TelegramApiService;
+use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\SendMessageDTO;
+use App\Core\Telegram\Infrastructure\Services\Telegram\TelegramApiService;
 use App\Modules\User\Infrastructure\Repository\UserRepository;
 use Illuminate\Support\Facades\Log;
 

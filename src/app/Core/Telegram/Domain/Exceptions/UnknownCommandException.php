@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Telegram\Exceptions;
+namespace App\Core\Telegram\Domain\Exceptions;
 
 use Throwable;
 
