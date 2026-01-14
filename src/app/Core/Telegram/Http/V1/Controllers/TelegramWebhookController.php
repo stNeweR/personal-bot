@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Core\Telegram\Presentation\Http\Controllers;
+namespace App\Core\Telegram\Http\V1\Controllers;
 
 use App\Core\Telegram\Application\DTOs\TelegramUpdateDTO;
-use App\Core\Telegram\Application\UseCases\TelegramWebhookUpdateHandler;
-use App\Core\Telegram\Presentation\Http\Requests\TelegramWebhookRequest;
+use App\Core\Telegram\Http\V1\Requests\TelegramWebhookRequest;
+use App\Core\Telegram\UseCases\TelegramWebhookUpdateHandler;
 
 final class TelegramWebhookController
 {

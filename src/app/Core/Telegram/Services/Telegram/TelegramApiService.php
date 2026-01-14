@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Core\Telegram\Infrastructure\Http;
+namespace App\Core\Telegram\Services\Telegram;
 
-use App\Core\Telegram\Domain\Contracts\TelegramApiClientInterface;
-use App\Core\Telegram\Infrastructure\Http\DTOs\SendMessageDTO;
-use App\Core\Telegram\Infrastructure\Http\DTOs\TelegramApiResponse;
+use App\Core\Telegram\Contracts\TelegramApiClientInterface;
+use App\Core\Telegram\Services\Telegram\DTOs\SendMessageDTO;
+use App\Core\Telegram\Services\Telegram\DTOs\TelegramApiResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-final class TelegramApiClient implements TelegramApiClientInterface
+final class TelegramApiService implements TelegramApiClientInterface
 {
     private string $token;
 

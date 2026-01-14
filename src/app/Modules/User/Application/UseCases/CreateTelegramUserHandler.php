@@ -3,8 +3,8 @@
 namespace App\Modules\User\Application\UseCases;
 
 use App\Core\Telegram\Application\Handlers\Command\CommandHandlerDTO;
-use App\Core\Telegram\Infrastructure\Http\DTOs\SendMessageDTO;
-use App\Core\Telegram\Infrastructure\Http\TelegramApiClient;
+use App\Core\Telegram\Services\Telegram\DTOs\SendMessageDTO;
+use App\Core\Telegram\Services\Telegram\TelegramApiService;
 use App\Modules\User\Infrastructure\Repository\UserRepository;
 use Illuminate\Support\Facades\Log;
 
@@ -12,7 +12,7 @@ final readonly class CreateTelegramUserHandler
 {
     public function __construct(
         private UserRepository $userRepository,
-        private TelegramApiClient $telegramApiClient
+        private TelegramApiService $telegramApiClient
     ) {}
 
     public function handle(CommandHandlerDTO $data): void

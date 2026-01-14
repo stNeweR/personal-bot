@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Telegram\Infrastructure\Http\DTOs;
+namespace App\Core\Telegram\Services\Telegram\DTOs;
 
 use Spatie\LaravelData\Attributes\MapName;
 use Spatie\LaravelData\Data;

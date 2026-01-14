@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Core\Telegram\Presentation\Console;
+namespace App\Core\Telegram\Console;
 
-use App\Core\Telegram\Application\UseCases\SetTelegramWebhookHandler;
-use App\Core\Telegram\Domain\Exceptions\SetWebhookException;
+use App\Core\Telegram\Exceptions\SetWebhookException;
+use App\Core\Telegram\UseCases\SetTelegramWebhookHandler;
 use Illuminate\Console\Command;
 
 final class SetTelegramWebhookCommand extends Command

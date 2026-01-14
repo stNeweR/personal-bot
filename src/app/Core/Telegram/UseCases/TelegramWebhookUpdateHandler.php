@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Telegram\Application\UseCases;
+namespace App\Core\Telegram\UseCases;
 
 use App\Core\Telegram\Application\DTOs\TelegramUpdateDTO;
 use App\Core\Telegram\Application\Handlers\Command\HandlerDispatcher;
