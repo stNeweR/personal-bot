@@ -2,6 +2,9 @@
 
 namespace App\Modules\User\Domain\Repository;
 
-interface UserRepositoryInterface {
+interface UserRepositoryInterface
+{
     public function createUser(string $telegramId);
+
+    public function getByTelegramId(int $telegramId);
 }

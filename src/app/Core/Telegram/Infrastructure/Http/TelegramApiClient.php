@@ -33,6 +33,7 @@ final class TelegramApiClient implements TelegramApiClientInterface
         ]);
 
         Log::debug($response->json());
+
         return TelegramApiResponse::from($response->json());
     }
 

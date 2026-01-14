@@ -13,7 +13,5 @@ class CommandHandlerDTO extends Data
         public int $updateId,
         public ?int $telegramId,
         public ?string $message
-    )
-    {
-    }
+    ) {}
 }

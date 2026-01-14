@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * @class Класс пользователя
+ *
  * @property int $telegram_id
  */
 class User extends Authenticatable
@@ -20,4 +21,9 @@ class User extends Authenticatable
     protected $fillable = [
         'telegram_id',
     ];
+
+    protected static function newFactory()
+    {
+        return UserFactory::new();
+    }
 }

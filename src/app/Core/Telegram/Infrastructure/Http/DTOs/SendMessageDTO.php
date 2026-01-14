@@ -12,8 +12,6 @@ class SendMessageDTO extends Data
     public function __construct(
         public readonly int $chatId,
         public readonly string $text,
-        public readonly string $parseMode = "MarkdownV2"
-    )
-    {
-    }
+        public readonly string $parseMode = 'MarkdownV2'
+    ) {}
 }
