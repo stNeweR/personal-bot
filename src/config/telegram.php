@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Modules\Pomodoro\Handlers\Command\AddPomodoroSettingsHandler;
+use App\Modules\Pomodoro\Application\Handlers\Command\AddPomodoroSettingsHandler;
 use App\Modules\User\Application\Handlers\Command\StartCommandHandler;
 
 return [

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Pomodoro;
 
-use App\Modules\User\Domain\Models\User;
+use App\Modules\User\Infrastructure\Models\User;
 use Illuminate\Support\Facades\Http;
 use Tests\SetUps\SetupTelegram;
 use Tests\TestCase;

@@ -2,8 +2,8 @@
 
 namespace App\Modules\User\Infrastructure\Repository;
 
-use App\Modules\User\Domain\Models\User;
 use App\Modules\User\Domain\Repository\UserRepositoryInterface;
+use App\Modules\User\Infrastructure\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
