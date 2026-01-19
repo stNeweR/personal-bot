@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Telegram\Infrastructure\Http\DTOs;
+namespace App\Core\Telegram\Infrastructure\Services\Telegram\DTOs;
 
 use Spatie\LaravelData\Data;
 

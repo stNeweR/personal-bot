@@ -21,18 +21,18 @@ final readonly class HandlerDispatcher
                 $this->commandStrategy->execute($command, $data);
             }
 
-//            if ($data->callbackData) {
-//                $this->handleCallbackQuery($data);
-//                return;
-//            }
-//
-//            if ($data->messageText) {
-//                $this->handleMessage($data);
-//                return;
-//            }
+            //            if ($data->callbackData) {
+            //                $this->handleCallbackQuery($data);
+            //                return;
+            //            }
+            //
+            //            if ($data->messageText) {
+            //                $this->handleMessage($data);
+            //                return;
+            //            }
         } catch (\Exception $exception) {
             $this->handleError($data);
-            Log::warning('Unknown update type', $data->toArray());
+            Log::warning($exception->getMessage(), $data->toArray());
         }
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Domain\Models;
+namespace App\Modules\User\Infrastructure\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
@@ -9,7 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * @class Класс пользователя
+ * @class User
+ *
  * @property int $telegram_id
  */
 class User extends Authenticatable
@@ -20,4 +21,9 @@ class User extends Authenticatable
     protected $fillable = [
         'telegram_id',
     ];
+
+    protected static function newFactory(): UserFactory
+    {
+        return UserFactory::new();
+    }
 }

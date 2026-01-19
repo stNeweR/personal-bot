@@ -2,7 +2,7 @@
 
 namespace App\Core\Telegram\Domain\Contracts;
 
-use App\Core\Telegram\Infrastructure\Http\DTOs\TelegramApiResponse;
+use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\TelegramApiResponse;
 
 interface TelegramApiClientInterface
 {

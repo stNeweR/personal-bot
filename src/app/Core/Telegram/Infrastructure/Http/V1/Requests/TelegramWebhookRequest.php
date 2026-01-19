@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Core\Telegram\Presentation\Http\Requests;
+namespace App\Core\Telegram\Infrastructure\Http\V1\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

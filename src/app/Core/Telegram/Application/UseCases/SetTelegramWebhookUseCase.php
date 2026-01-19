@@ -3,9 +3,9 @@
 namespace App\Core\Telegram\Application\UseCases;
 
 use App\Core\Telegram\Domain\Exceptions\SetWebhookException;
-use App\Core\Telegram\Infrastructure\Http\TelegramApiClient;
+use App\Core\Telegram\Infrastructure\Services\Telegram\TelegramApiClient;
 
-final readonly class SetTelegramWebhookHandler
+final readonly class SetTelegramWebhookUseCase
 {
     public function __construct(
         private TelegramApiClient $telegramWebhookService,
@@ -14,7 +14,7 @@ final readonly class SetTelegramWebhookHandler
     /**
      * @throws SetWebhookException
      */
-    public function handle(): bool
+    public function execute(): bool
     {
         $result = $this->telegramWebhookService->setWebhook();
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Core\Telegram\Infrastructure\Http;
+namespace App\Core\Telegram\Infrastructure\Services\Telegram;
 
 use App\Core\Telegram\Domain\Contracts\TelegramApiClientInterface;
-use App\Core\Telegram\Infrastructure\Http\DTOs\SendMessageDTO;
-use App\Core\Telegram\Infrastructure\Http\DTOs\TelegramApiResponse;
+use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\SendMessageDTO;
+use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\TelegramApiResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -32,15 +32,12 @@ final class TelegramApiClient implements TelegramApiClientInterface
             'url' => $applicationEndpoint,
         ]);
 
-        Log::debug($response->json());
         return TelegramApiResponse::from($response->json());
     }
 
     public function sendMessage(SendMessageDTO $dto): TelegramApiResponse
     {
         $response = Http::post($this->telegramApiUrl.'/sendMessage', $dto->toArray());
-
-        Log::debug($response->json());
 
         return TelegramApiResponse::from($response->json());
     }
