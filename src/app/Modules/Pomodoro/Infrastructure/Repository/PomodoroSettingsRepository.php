@@ -3,11 +3,16 @@
 namespace App\Modules\Pomodoro\Infrastructure\Repository;
 
 use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
+use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSettings;
 
-class PomodoroSettingsRepository implements PomodoroSettingsRepositoryInterface
+final class PomodoroSettingsRepository implements PomodoroSettingsRepositoryInterface
 {
-    public function create()
+    public function create(int $userId, int $workDuration): PomodoroSettings
     {
-        // TODO: Implement create() method.
+        return PomodoroSettings::query()
+            ->createOrFirst([
+                'user_id' => $userId,
+                'work_duration' => $workDuration
+            ]);
     }
 }

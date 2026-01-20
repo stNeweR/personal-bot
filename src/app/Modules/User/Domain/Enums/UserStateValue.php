@@ -2,6 +2,8 @@
 
 namespace App\Modules\User\Domain\Enums;
 
+use App\Modules\Pomodoro\Application\Handlers\State\AwaitingWorkDurationStateHandler;
+
 enum UserStateValue: string
 {
     case AWAITING_WORK_DURATION = 'awaiting_work_duration';
@@ -19,5 +21,16 @@ enum UserStateValue: string
             self::AWAITING_LONG_BREAK_DURATION->value,
             self::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
         ];
+    }
+
+    public function getHandler(): string
+    {
+        return match ($this) {
+            self::AWAITING_WORK_DURATION => AwaitingWorkDurationStateHandler::class,
+            // self::AWAITING_BREAK_DURATION => '-',
+            // self::AWAITING_REPEATS_COUNT => '-',
+            // self::AWAITING_LONG_BREAK_DURATION => '-',
+            // self::AWAITING_CYCLES_BEFORE_LONG_BREAK => '-',
+        };
     }
 }

@@ -10,4 +10,6 @@ interface UserStateRepositoryInterface
     public function clearUserStatesByTelegramId(int $telegramId): int;
 
     public function createByTelegramId(int $telegramId, UserStateValue $stateValue): UserState;
+
+    public function getUserStateByTelegramId(int $telegramId): ?UserState;
 }

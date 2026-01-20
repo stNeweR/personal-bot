@@ -9,5 +9,6 @@ use App\Modules\User\Infrastructure\Models\UserState;
 interface UserAdapterInterface
 {
     public function getUserByTelegramId(int $telegramId): User;
+
     public function updateUserState(int $userId, UserStateValue $stateValue): UserState;
 }

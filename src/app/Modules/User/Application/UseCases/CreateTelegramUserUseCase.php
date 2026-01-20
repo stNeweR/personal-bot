@@ -2,10 +2,9 @@
 
 namespace App\Modules\User\Application\UseCases;
 
-use Illuminate\Support\Facades\Log;
-use App\Modules\User\Infrastructure\Repository\UserRepository;
 use App\Core\Telegram\Application\Handlers\Command\CommandHandlerDTO;
 use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
+use App\Modules\User\Infrastructure\Repository\UserRepository;
 
 final readonly class CreateTelegramUserUseCase
 {

@@ -2,18 +2,18 @@
 
 namespace App\Modules\Pomodoro\Application\UseCases;
 
-use Illuminate\Support\Facades\Log;
-use App\Modules\User\Domain\Enums\UserStateValue;
-use App\Modules\User\Domain\Contracts\UserAdapterInterface;
 use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
 use App\Modules\Pomodoro\Application\DTOs\AddPomodoroSettingsDTO;
+use App\Modules\User\Domain\Contracts\UserAdapterInterface;
+use App\Modules\User\Domain\Enums\UserStateValue;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Log;
 
-class AddPomodoroSettingsForUserUseCase
+final class AddPomodoroSettingsForUserUseCase
 {
     public function __construct(
         private readonly UserAdapterInterface $userAdapter,
-        private TelegramAdapter $telegramAdapter
+        private readonly TelegramAdapter $telegramAdapter
     ) {}
 
     public function execute(AddPomodoroSettingsDTO $data): void
@@ -31,7 +31,7 @@ class AddPomodoroSettingsForUserUseCase
                 text: 'Попробуйте позже'
             );
 
-            Log::error('Не удалось сохранить состояние пользователя: ' . $data->telegramId . '. Ошибка - ' . $e->getMessage());
+            Log::error('Не удалось сохранить состояние пользователя: '.$data->telegramId.'. Ошибка - '.$e->getMessage());
         }
     }
 }

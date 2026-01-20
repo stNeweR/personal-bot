@@ -2,12 +2,12 @@
 
 namespace App\Modules\User\Infrastructure\Repository;
 
-use Illuminate\Support\Facades\DB;
-use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\User\Domain\Repository\UserStateRepositoryInterface;
+use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Modules\User\Domain\Repository\UserStateRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 final class UserStateRepository implements UserStateRepositoryInterface
 {
@@ -20,9 +20,6 @@ final class UserStateRepository implements UserStateRepositoryInterface
     }
 
     /**
-     * @param integer $telegramId
-     * @param UserStateValue $stateValue
-     * @return UserState
      * @throws ModelNotFoundException
      */
     public function createByTelegramId(int $telegramId, UserStateValue $stateValue): UserState
@@ -33,5 +30,16 @@ final class UserStateRepository implements UserStateRepositoryInterface
             'user_id' => $user->id,
             'state_value' => $stateValue->value,
         ]);
+    }
+
+    public function getUserStateByTelegramId(int $telegramId): ?UserState
+    {
+        $user = User::query()->where('telegram_id', $telegramId)->first();
+
+        if (! $user) {
+            return null;
+        }
+
+        return UserState::where('user_id', $user->id)->first();
     }
 }

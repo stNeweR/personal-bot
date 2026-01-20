@@ -36,19 +36,15 @@ final class TelegramUpdateDTO extends Data
 
         $text = trim($this->messageText);
 
-        // Проверяем, что сообщение начинается с "/"
         if (! str_starts_with($text, '/')) {
             return null;
         }
 
-        // Извлекаем первую часть до пробела
         $parts = explode(' ', $text, 2);
         $commandWithBot = $parts[0];
 
-        // Убираем "@имя_бота" если есть
         $command = explode('@', $commandWithBot)[0];
 
-        // Убираем "/" и возвращаем команду в нижнем регистре
         return strtolower(substr($command, 1));
     }
 }

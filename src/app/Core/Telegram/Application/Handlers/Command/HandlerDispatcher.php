@@ -4,32 +4,38 @@ namespace App\Core\Telegram\Application\Handlers\Command;
 
 use App\Core\Telegram\Application\DTOs\TelegramUpdateDTO;
 use App\Core\Telegram\Application\Strategies\Command\CommandStrategy;
+use App\Core\Telegram\Application\Strategies\State\StateStrategy;
+use App\Modules\User\Domain\Repository\UserStateRepositoryInterface;
 use Illuminate\Support\Facades\Log;
 
 final readonly class HandlerDispatcher
 {
     public function __construct(
-        private CommandStrategy $commandStrategy
+        private CommandStrategy $commandStrategy,
+        private StateStrategy $stateStrategy,
+        private UserStateRepositoryInterface $userStateRepository
     ) {}
 
     public function dispatch(TelegramUpdateDTO $data): void
     {
+        $userState = $this->userStateRepository->getUserStateByTelegramId($data->userId);
+
         $command = $data->getCommand();
 
         try {
             if ($command) {
                 $this->commandStrategy->execute($command, $data);
+                return ;
             }
 
-            //            if ($data->callbackData) {
-            //                $this->handleCallbackQuery($data);
-            //                return;
-            //            }
-            //
-            //            if ($data->messageText) {
-            //                $this->handleMessage($data);
-            //                return;
-            //            }
+            if ($userState) {
+                $this->stateStrategy->execute($userState->state_value, $data);
+                return ;
+            }
+            // if ($data->messageText) {
+            //     $this->handleMessage($data);
+            //     return;
+            // }
         } catch (\Exception $exception) {
             $this->handleError($data);
             Log::warning($exception->getMessage(), $data->toArray());

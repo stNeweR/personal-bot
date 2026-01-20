@@ -14,13 +14,15 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')
+                ->unique()
                 ->comment('Идентификатор пользователя')
                 ->constrained('users');
 
             $table->unsignedInteger('work_duration')
                 ->default(25)
                 ->comment('Время рабочего промежутка в минутах');
-            $table->unsignedInteger('break_duration')->default(5)
+            $table->unsignedInteger('break_duration')
+                ->default(5)
                 ->comment('Время перерыва');
             $table->unsignedTinyInteger('repeats_count')
                 ->default(3)
@@ -28,9 +30,11 @@ return new class extends Migration
 
             $table->unsignedInteger('long_break_duration')
                 ->default(15)
+                ->nullable()
                 ->comment('Длительность длинного перерыва (минуты)');
             $table->unsignedSmallInteger('cycles_before_long_break')
                 ->default(2)
+                ->nullable()
                 ->comment('Количество циклов перед длинным перерывом');
 
             $table->timestamps();

@@ -7,9 +7,10 @@ use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
 #[MapName(SnakeCaseMapper::class)]
-final class AddPomodoroSettingsDTO extends Data
+final class AddWorkDurationDTO extends Data
 {
     public function __construct(
-        public readonly string $telegramId
+        public readonly int $telegramId,
+        public readonly string $message
     ) {}
 }
