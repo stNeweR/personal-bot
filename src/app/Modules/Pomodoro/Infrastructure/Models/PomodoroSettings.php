@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $long_break_duration
  * @property int $cycles_before_long_break
  */
-class PomodoroSettings extends Model
+final class PomodoroSettings extends Model
 {
     use HasFactory;
 
@@ -26,7 +26,7 @@ class PomodoroSettings extends Model
         'break_duration',
         'repeats_count',
         'long_break_duration',
-        'cycles_before_long_break'
+        'cycles_before_long_break',
     ];
 
     protected static function newFactory(): PomodoroSettingsFactory
