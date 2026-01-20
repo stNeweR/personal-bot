@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Domain\Contracts;
+namespace App\Core\Telegram\Domain\Contracts;
 
 interface TelegramAdapterInterface
 {

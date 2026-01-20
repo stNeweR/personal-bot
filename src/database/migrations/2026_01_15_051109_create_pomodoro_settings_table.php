@@ -20,8 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('work_duration')
                 ->default(25)
                 ->comment('Время рабочего промежутка в минутах');
-            $table->unsignedInteger('bread_duration')
-                ->default(5)
+            $table->unsignedInteger('break_duration')->default(5)
                 ->comment('Время перерыва');
             $table->unsignedTinyInteger('repeats_count')
                 ->default(3)

@@ -11,7 +11,5 @@ final class AddPomodoroSettingsDTO extends Data
 {
     public function __construct(
         public string $telegramId
-    )
-    {
-    }
+    ) {}
 }
