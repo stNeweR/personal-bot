@@ -2,6 +2,7 @@
 
 namespace App\Modules\User\Domain\Enums;
 
+use App\Modules\Pomodoro\Application\Handlers\State\AwaitingBreakDurationStateHandler;
 use App\Modules\Pomodoro\Application\Handlers\State\AwaitingWorkDurationStateHandler;
 
 enum UserStateValue: string
@@ -27,7 +28,7 @@ enum UserStateValue: string
     {
         return match ($this) {
             self::AWAITING_WORK_DURATION => AwaitingWorkDurationStateHandler::class,
-            // self::AWAITING_BREAK_DURATION => '-',
+            self::AWAITING_BREAK_DURATION => AwaitingBreakDurationStateHandler::class
             // self::AWAITING_REPEATS_COUNT => '-',
             // self::AWAITING_LONG_BREAK_DURATION => '-',
             // self::AWAITING_CYCLES_BEFORE_LONG_BREAK => '-',

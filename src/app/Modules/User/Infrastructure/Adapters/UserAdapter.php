@@ -2,13 +2,14 @@
 
 namespace App\Modules\User\Infrastructure\Adapters;
 
-use App\Modules\User\Domain\Contracts\UserAdapterInterface;
-use App\Modules\User\Domain\Enums\UserStateValue;
+use Illuminate\Support\Facades\Log;
 use App\Modules\User\Infrastructure\Models\User;
+use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Models\UserState;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Modules\User\Domain\Contracts\UserAdapterInterface;
 use App\Modules\User\Infrastructure\Repository\UserRepository;
 use App\Modules\User\Infrastructure\Repository\UserStateRepository;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final class UserAdapter implements UserAdapterInterface
 {

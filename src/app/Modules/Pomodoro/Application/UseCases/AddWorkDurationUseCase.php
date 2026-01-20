@@ -4,6 +4,7 @@ namespace App\Modules\Pomodoro\Application\UseCases;
 
 use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
 use App\Modules\Pomodoro\Application\DTOs\AddWorkDurationDTO;
+use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
 use App\Modules\Pomodoro\Infrastructure\Repository\PomodoroSettingsRepository;
 use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Adapters\UserAdapter;
@@ -17,7 +18,7 @@ final readonly class AddWorkDurationUseCase
         private TelegramAdapter $telegramAdapter
     ) {}
 
-    public function execute(AddWorkDurationDTO $data): void
+    public function execute(UseCaseStateHandlerDTO $data): void
     {
         $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
 

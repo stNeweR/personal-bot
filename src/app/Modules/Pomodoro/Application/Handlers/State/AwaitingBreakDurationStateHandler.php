@@ -3,14 +3,14 @@
 namespace App\Modules\Pomodoro\Application\Handlers\State;
 
 use App\Core\Telegram\Application\Handlers\State\StateHandlerDTO;
-use App\Core\Telegram\Application\Handlers\State\StateHandlerInterface;
 use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
-use App\Modules\Pomodoro\Application\UseCases\AddWorkDurationUseCase;
+use App\Modules\Pomodoro\Application\UseCases\AddBreakDurationUseCase;
+use App\Core\Telegram\Application\Handlers\State\StateHandlerInterface;
 
-final class AwaitingWorkDurationStateHandler implements StateHandlerInterface
+final readonly class AwaitingBreakDurationStateHandler implements StateHandlerInterface
 {
     public function __construct(
-        private readonly AddWorkDurationUseCase $useCase
+        public AddBreakDurationUseCase $useCase
     ) {}
 
     public function handle(StateHandlerDTO $data): void

@@ -15,4 +15,14 @@ final class PomodoroSettingsRepository implements PomodoroSettingsRepositoryInte
                 'work_duration' => $workDuration
             ]);
     }
+
+    public function update(int $userId, string $column, int $value): bool
+    {
+        return PomodoroSettings::query()
+            ->where('user_id', $userId)
+            ->firstOrFail()
+            ->update([
+                $column => $value
+            ]);
+    }
 }

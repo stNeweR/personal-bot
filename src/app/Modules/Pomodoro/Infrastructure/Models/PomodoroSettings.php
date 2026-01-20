@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $work_duration
  * @property int $break_duration
  * @property int $repeats_count
- * @property int $long_break_duration
- * @property int $cycles_before_long_break
+ * @property ?int $long_break_duration
+ * @property ?int $cycles_before_long_break
  */
 final class PomodoroSettings extends Model
 {
