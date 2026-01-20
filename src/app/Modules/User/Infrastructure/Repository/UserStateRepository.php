@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Modules\User\Infrastructure\Repository;
+
+use Illuminate\Support\Facades\DB;
+use App\Modules\User\Infrastructure\Models\User;
+use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\User\Infrastructure\Models\UserState;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Modules\User\Domain\Repository\UserStateRepositoryInterface;
+
+final class UserStateRepository implements UserStateRepositoryInterface
+{
+    public function clearUserStatesByTelegramId(int $telegramId): int
+    {
+        return DB::table('user_states')
+            ->join('users', 'user_states.user_id', '=', 'users.id')
+            ->where('users.telegram_id', $telegramId)
+            ->delete();
+    }
+
+    /**
+     * @param integer $telegramId
+     * @param UserStateValue $stateValue
+     * @return UserState
+     * @throws ModelNotFoundException
+     */
+    public function createByTelegramId(int $telegramId, UserStateValue $stateValue): UserState
+    {
+        $user = User::query()->where('telegram_id', $telegramId)->firstOrFail();
+
+        return UserState::query()->create([
+            'user_id' => $user->id,
+            'state_value' => $stateValue->value,
+        ]);
+    }
+}

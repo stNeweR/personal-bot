@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    private const TABLE_NAME = 'user_state';
+    private const TABLE_NAME = 'user_states';
 
     public function up(): void
     {

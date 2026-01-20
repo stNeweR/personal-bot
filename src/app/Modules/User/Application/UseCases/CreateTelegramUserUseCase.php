@@ -22,7 +22,5 @@ final readonly class CreateTelegramUserUseCase
             $data->telegramId,
             $data->message
         );
-
-        Log::debug('123');
     }
 }

@@ -15,9 +15,10 @@ class UserRepository implements UserRepositoryInterface
             ]);
     }
 
-    public function getByTelegramId(int $telegramId): ?User
+    public function getByTelegramId(int $telegramId): User
     {
         return User::query()
-            ->firstWhere('telegram_id', $telegramId);
+            ->where('telegram_id', $telegramId)
+            ->firstOrFail();
     }
 }

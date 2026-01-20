@@ -18,6 +18,8 @@ final class UserState extends Model
     /** @use HasFactory<UserStateFactory> */
     use HasFactory;
 
+    protected $table = 'user_states';
+
     protected $fillable = [
         'user_id',
         'state_value',
