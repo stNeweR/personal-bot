@@ -8,6 +8,7 @@ use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
 use App\Modules\Pomodoro\Infrastructure\Repository\PomodoroSettingsRepository;
 use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Adapters\UserAdapter;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
 final readonly class AddWorkDurationUseCase
@@ -22,10 +23,17 @@ final readonly class AddWorkDurationUseCase
     {
         $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
 
-        $this->pomodoroSettingsRepository->create($user->id, (int) $data->message);
+        $settings = $this->pomodoroSettingsRepository->getByUserId($user->id);
 
+        if(is_null($settings)) {
+            $this->pomodoroSettingsRepository->create($user->id, (int) $data->message);
+
+            $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили рабочее время. Теперь введите время перерыва');
+        } else {
+            $this->pomodoroSettingsRepository->update($user->id, 'work_duration', (int) $data->message);
+
+            $this->telegramAdapter->sendMessage($user->telegram_id, 'У вас уже была настройка для помодоро таймера. Рабочее время обновлено. Теперь введите время перерыва');
+        }
         $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_BREAK_DURATION);
-
-        $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили рабочее время. Теперь введите время перерыва');
     }
 }

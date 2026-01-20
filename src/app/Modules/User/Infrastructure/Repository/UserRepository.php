@@ -10,7 +10,7 @@ class UserRepository implements UserRepositoryInterface
     public function createUser(string $telegramId): User
     {
         return User::query()
-            ->createOrFirst([
+            ->firstOrCreate([
                 'telegram_id' => $telegramId,
             ]);
     }

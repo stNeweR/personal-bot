@@ -8,7 +8,7 @@ use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
 use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
 use App\Modules\Pomodoro\Infrastructure\Repository\PomodoroSettingsRepository;
 
-final readonly class AddBreakDurationUseCase
+final readonly class AddLongBreakDurationUseCase
 {
     public function __construct(
         private PomodoroSettingsRepository $pomodoroSettingsRepository,
@@ -20,10 +20,10 @@ final readonly class AddBreakDurationUseCase
     {
         $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
 
-        $this->pomodoroSettingsRepository->update($user->id, 'break_duration', (int) $data->message);
+        $this->pomodoroSettingsRepository->update($user->id, 'long_break_duration', (int) $data->message);
 
-        $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_REPEATS_COUNT);
+        $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK);
 
-        $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили время перерыва. Теперь введите количество повторов');
+        $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили длительность длинного перерыва. Теперь введите количество циклов до длинного перерыва');
     }
 }

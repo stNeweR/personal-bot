@@ -2,15 +2,16 @@
 
 namespace App\Modules\Pomodoro\Infrastructure\Repository;
 
-use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSettings;
+use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
 
 final class PomodoroSettingsRepository implements PomodoroSettingsRepositoryInterface
 {
     public function create(int $userId, int $workDuration): PomodoroSettings
     {
         return PomodoroSettings::query()
-            ->createOrFirst([
+            ->firstOrCreate([
                 'user_id' => $userId,
                 'work_duration' => $workDuration
             ]);
@@ -24,5 +25,11 @@ final class PomodoroSettingsRepository implements PomodoroSettingsRepositoryInte
             ->update([
                 $column => $value
             ]);
+    }
+
+    public function getByUserId(int $userId): ?PomodoroSettings
+    {
+        return PomodoroSettings::query()
+            ->firstWhere('user_id', $userId);
     }
 }

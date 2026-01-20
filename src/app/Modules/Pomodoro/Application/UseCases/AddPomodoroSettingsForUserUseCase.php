@@ -19,6 +19,7 @@ final class AddPomodoroSettingsForUserUseCase
     public function execute(AddPomodoroSettingsDTO $data): void
     {
         try {
+
             $this->userAdapter->updateUserState($data->telegramId, UserStateValue::AWAITING_WORK_DURATION);
 
             $this->telegramAdapter->sendMessage(

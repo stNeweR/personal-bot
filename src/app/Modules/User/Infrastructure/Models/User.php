@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 /**
  * @class User
  *
+ * @property int $id
  * @property int $telegram_id
  */
 class User extends Authenticatable
