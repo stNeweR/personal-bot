@@ -22,4 +22,27 @@ return [
         'startpomodoro' => StartPomodoroHandler::class,
         'getsessions' => GetTodaySessionsHandler::class,
     ],
+    
+    'commands_info' => [
+        [
+            'command' => 'start',
+            'description' => 'Начать работу с ботом'
+        ],
+        [
+            'command' => 'addpomosettings',
+            'description' => 'Добавить настройки Pomodoro'
+        ],
+        [
+            'command' => 'getpomosettings',
+            'description' => 'Получить настройки Pomodoro'
+        ],
+        [
+            'command' => 'startpomodoro',
+            'description' => 'Начать Pomodoro сессию'
+        ],
+        [
+            'command' => 'getsessions',
+            'description' => 'Получить список сессий за сегодня'
+        ],
+    ],
 ];
