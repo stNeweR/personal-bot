@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->unique()
                 ->comment('Идентификатор пользователя')
-                ->constrained('users');
+                ->references('id')
+                ->on('users');
 
             $table->string('state_value')
                 ->index()

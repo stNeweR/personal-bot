@@ -34,6 +34,7 @@ final readonly class HandlerDispatcher
 
                 return;
             }
+
             // if ($data->messageText) {
             //     $this->handleMessage($data);
             //     return;

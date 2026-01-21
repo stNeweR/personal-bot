@@ -12,9 +12,16 @@ final readonly class CreateTelegramUserUseCase
         private UserRepository $userRepository,
         private TelegramAdapter $telegramAdapter
     ) {}
-
-    public function execute(CommandHandlerDTO $data): void
-    {
+public function execute(CommandHandlerDTO $data): void
+{
+    try {
+        $this->userRepository->getByTelegramId($data->telegramId);
+        
+        $this->telegramAdapter->sendMessage(
+            $data->telegramId,
+            'Вы уже пользовались ботом. Для того чтобы посмотреть свои настройки таймера, выполните команду /getpomosettings.'
+        );
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
         $this->userRepository->createUser($data->telegramId);
 
         $this->telegramAdapter->sendMessage(
@@ -22,4 +29,6 @@ final readonly class CreateTelegramUserUseCase
             'Для того чтобы начать пользоваться ботом, добавьте настройки для помодоро таймера командой - /addpomosettings'
         );
     }
+}
+
 }
