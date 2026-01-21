@@ -23,6 +23,8 @@ return new class extends Migration
             $table->timestamp('start_at')
                 ->comment('Время начала сессии');
             $table->timestamp('end_at')
+                ->default(null)
+                ->nullable()
                 ->comment('Время конца сессии');
 
             $table->timestamps();

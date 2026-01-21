@@ -39,10 +39,9 @@ final class GetTodaySessionsHandler implements CommandHandlerInterface
 
         $table = "<b>Сессии за сегодня:</b>\n\n";
         $table .= "<pre>";
-        $table .= sprintf("%-2s %-12s %-10s %-4s %-12s", "№", "Время начала", "Статус", "Цикл", "Время окончания");
-        $table .= "\n";
-        $table .= str_repeat("-", 45);
-        $table .= "\n";
+        $table .= "+---+---------------+---------------+------+----------------+\n";
+        $table .= "| № | Время начала  | Статус        | Цикл | Время окончания|\n";
+        $table .= "+---+---------------+---------------+------+----------------+\n";
 
         foreach ($todaySessions as $index => $session) {
             $startTime = $session->start_at->format('H:i:s');
@@ -50,16 +49,18 @@ final class GetTodaySessionsHandler implements CommandHandlerInterface
             $cycle = $session->current_cycle;
             $endTime = $session->end_at ? $session->end_at->format('H:i:s') : '-';
             
-            $table .= sprintf("%-2s %-12s %-10s %-4s %-12s",
-                $index + 1,
-                $startTime,
-                $status,
-                $cycle,
-                $endTime
-            );
-            $table .= "\n";
+            // Формируем строку с фиксированной шириной для каждого поля
+            // Используем ручное форматирование для лучшей совместимости с кириллицей в Telegram
+            $num = str_pad($index + 1, 2, ' ', STR_PAD_BOTH);
+            $startTimePad = str_pad($startTime, 14, ' ', STR_PAD_RIGHT);
+            $statusPad = str_pad(mb_substr($status, 0, 14), 14, ' ', STR_PAD_RIGHT);
+            $cyclePad = str_pad($cycle, 4, ' ', STR_PAD_BOTH);
+            $endTimePad = str_pad($endTime, 15, ' ', STR_PAD_RIGHT);
+            
+            $table .= "| " . $num . " | " . $startTimePad . " | " . $statusPad . " | " . $cyclePad . " | " . $endTimePad . " |\n";
         }
         
+        $table .= "+---+---------------+---------------+------+----------------+\n";
         $table .= "</pre>";
 
         (new TelegramApiClient())->sendMessage(new SendMessageDTO(
