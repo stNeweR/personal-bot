@@ -25,12 +25,14 @@ final readonly class HandlerDispatcher
         try {
             if ($command) {
                 $this->commandStrategy->execute($command, $data);
-                return ;
+
+                return;
             }
 
             if ($userState) {
                 $this->stateStrategy->execute($userState->state_value, $data);
-                return ;
+
+                return;
             }
             // if ($data->messageText) {
             //     $this->handleMessage($data);

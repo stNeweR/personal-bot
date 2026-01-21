@@ -7,7 +7,6 @@ use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\SendMessageDTO;
 use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\TelegramApiResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 final class TelegramApiClient implements TelegramApiClientInterface
 {

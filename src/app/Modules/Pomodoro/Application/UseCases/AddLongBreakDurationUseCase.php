@@ -2,11 +2,11 @@
 
 namespace App\Modules\Pomodoro\Application\UseCases;
 
+use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
+use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
+use App\Modules\Pomodoro\Infrastructure\Repository\PomodoroSettingsRepository;
 use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Adapters\UserAdapter;
-use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
-use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
-use App\Modules\Pomodoro\Infrastructure\Repository\PomodoroSettingsRepository;
 
 final readonly class AddLongBreakDurationUseCase
 {

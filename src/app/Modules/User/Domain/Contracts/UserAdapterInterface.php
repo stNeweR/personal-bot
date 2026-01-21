@@ -11,4 +11,6 @@ interface UserAdapterInterface
     public function getUserByTelegramId(int $telegramId): User;
 
     public function updateUserState(int $userId, UserStateValue $stateValue): UserState;
+
+    public function clearUserState(int $telegramId): int;
 }

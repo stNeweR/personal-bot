@@ -2,19 +2,18 @@
 
 namespace App\Modules\User\Infrastructure\Repository;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\User\Domain\Repository\UserStateRepositoryInterface;
+use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use App\Modules\User\Domain\Repository\UserStateRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 
 final class UserStateRepository implements UserStateRepositoryInterface
 {
     public function clearUserStatesByTelegramId(int $telegramId): int
     {
-       return DB::table('user_states')
+        return DB::table('user_states')
             ->join('users', 'user_states.user_id', '=', 'users.id')
             ->where('users.telegram_id', $telegramId)
             ->delete();

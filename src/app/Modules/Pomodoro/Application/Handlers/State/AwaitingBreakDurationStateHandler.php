@@ -3,9 +3,9 @@
 namespace App\Modules\Pomodoro\Application\Handlers\State;
 
 use App\Core\Telegram\Application\Handlers\State\StateHandlerDTO;
+use App\Core\Telegram\Application\Handlers\State\StateHandlerInterface;
 use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
 use App\Modules\Pomodoro\Application\UseCases\AddBreakDurationUseCase;
-use App\Core\Telegram\Application\Handlers\State\StateHandlerInterface;
 
 final readonly class AwaitingBreakDurationStateHandler implements StateHandlerInterface
 {

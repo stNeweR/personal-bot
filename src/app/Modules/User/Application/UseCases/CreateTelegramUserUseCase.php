@@ -19,7 +19,7 @@ final readonly class CreateTelegramUserUseCase
 
         $this->telegramAdapter->sendMessage(
             $data->telegramId,
-            $data->message
+            'Для того чтобы начать пользоваться ботом, добавьте настройки для помодоро таймера командой - /addpomosettings'
         );
     }
 }

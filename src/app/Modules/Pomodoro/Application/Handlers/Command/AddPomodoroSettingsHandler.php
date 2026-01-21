@@ -6,7 +6,6 @@ use App\Core\Telegram\Application\Handlers\Command\CommandHandlerDTO;
 use App\Core\Telegram\Application\Handlers\Command\CommandHandlerInterface;
 use App\Modules\Pomodoro\Application\DTOs\AddPomodoroSettingsDTO;
 use App\Modules\Pomodoro\Application\UseCases\AddPomodoroSettingsForUserUseCase;
-use Illuminate\Support\Facades\Log;
 
 final class AddPomodoroSettingsHandler implements CommandHandlerInterface
 {
