@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\Modules\Pomodoro\Application\Handlers\Command\AddPomodoroSettingsHandler;
 use App\Modules\Pomodoro\Application\Handlers\Command\GetPomodoroSettingsHandler;
+use App\Modules\Pomodoro\Application\Handlers\Command\GetTodaySessionsHandler;
 use App\Modules\Pomodoro\Application\Handlers\Command\StartPomodoroHandler;
 use App\Modules\User\Application\Handlers\Command\StartCommandHandler;
 
@@ -19,5 +20,6 @@ return [
         'addpomosettings' => AddPomodoroSettingsHandler::class,
         'getpomosettings' => GetPomodoroSettingsHandler::class,
         'startpomodoro' => StartPomodoroHandler::class,
+        'getsessions' => GetTodaySessionsHandler::class,
     ],
 ];

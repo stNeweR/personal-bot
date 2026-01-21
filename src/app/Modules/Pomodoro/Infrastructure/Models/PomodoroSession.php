@@ -15,12 +15,14 @@ class PomodoroSession extends Model
         'user_id',
         'current_status',
         'start_at',
+        'end_at',
         'current_cycle',
     ];
 
     protected $casts = [
         'current_status' => PomodoroStatusValue::class,
         'start_at' => 'datetime',
+        'end_at' => 'datetime',
         'current_cycle' => 'integer',
     ];
 

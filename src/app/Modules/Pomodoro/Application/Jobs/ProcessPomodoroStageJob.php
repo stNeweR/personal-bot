@@ -124,7 +124,10 @@ class ProcessPomodoroStageJob implements ShouldQueue
 
     private function finishSession(TelegramApiClient $telegramApi): void
     {
-        $this->updateSessionStatus($this->session, PomodoroStatusValue::FINISHED);
+        $this->session->update([
+            'current_status' => PomodoroStatusValue::FINISHED,
+            'end_at' => now()
+        ]);
         Log::info('finish');
         $telegramApi->sendMessage(new SendMessageDTO(
             chatId: $this->user->telegram_id,
