@@ -2,9 +2,9 @@
 
 namespace App\Core\Telegram\Infrastructure\Adapters;
 
+use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\SendMessageDTO;
 use App\Core\Telegram\Infrastructure\Services\Telegram\TelegramApiClient;
-use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 
 class TelegramAdapter implements TelegramAdapterInterface
 {
@@ -12,7 +12,7 @@ class TelegramAdapter implements TelegramAdapterInterface
         private readonly TelegramApiClient $telegramApiCLient
     ) {}
 
-    public function sendMessage(int $chatId, string $text, string $parseMode = 'MarkdownV2'): void
+    public function sendMessage(int $chatId, string $text, string $parseMode = 'HTML'): void
     {
         $this->telegramApiCLient->sendMessage(new SendMessageDTO(
             chatId: $chatId,

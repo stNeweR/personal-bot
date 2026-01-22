@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    private const TABLE_NAME = 'user_state';
+    private const TABLE_NAME = 'user_states';
 
     public function up(): void
     {
@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')
                 ->unique()
                 ->comment('Идентификатор пользователя')
-                ->constrained('users');
+                ->references('id')
+                ->on('users');
 
             $table->string('state_value')
                 ->index()

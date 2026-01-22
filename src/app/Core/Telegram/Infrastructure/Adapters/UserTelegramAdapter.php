@@ -2,9 +2,9 @@
 
 namespace App\Core\Telegram\Infrastructure\Adapters;
 
+use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\SendMessageDTO;
 use App\Core\Telegram\Infrastructure\Services\Telegram\TelegramApiClient;
-use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 
 class TelegramAdapter implements TelegramAdapterInterface
 {

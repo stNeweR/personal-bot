@@ -15,6 +15,6 @@ final class AddPomodoroSettingsHandler implements CommandHandlerInterface
 
     public function handle(CommandHandlerDTO $data): void
     {
-        $this->useCase->execute(new AddPomodoroSettingsDTO($data->telegramId));
+        $this->useCase->execute(new AddPomodoroSettingsDTO(telegramId: $data->telegramId));
     }
 }
