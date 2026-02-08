@@ -7,10 +7,10 @@ use App\Core\Telegram\Application\Handlers\Command\CommandHandlerInterface;
 use App\Modules\Pomodoro\Application\DTOs\AddPomodoroSettingsDTO;
 use App\Modules\Pomodoro\Application\UseCases\AddPomodoroSettingsForUserUseCase;
 
-final class AddPomodoroSettingsHandler implements CommandHandlerInterface
+final readonly class AddPomodoroSettingsHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private readonly AddPomodoroSettingsForUserUseCase $useCase
+        private AddPomodoroSettingsForUserUseCase $useCase
     ) {}
 
     public function handle(CommandHandlerDTO $data): void

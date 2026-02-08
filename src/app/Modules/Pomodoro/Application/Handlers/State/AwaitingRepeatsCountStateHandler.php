@@ -10,7 +10,7 @@ use App\Modules\Pomodoro\Application\UseCases\AddRepeatsCountUseCase;
 final readonly class AwaitingRepeatsCountStateHandler implements StateHandlerInterface
 {
     public function __construct(
-        private readonly AddRepeatsCountUseCase $useCase
+        private AddRepeatsCountUseCase $useCase
     ) {}
 
     public function handle(StateHandlerDTO $data): void

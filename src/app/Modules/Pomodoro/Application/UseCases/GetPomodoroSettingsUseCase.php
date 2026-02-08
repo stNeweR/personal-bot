@@ -4,17 +4,17 @@ namespace App\Modules\Pomodoro\Application\UseCases;
 
 use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
 use App\Modules\Pomodoro\Application\DTOs\GetPomodoroSettingsDTO;
-use App\Modules\Pomodoro\Infrastructure\Repository\PomodoroSettingsRepository;
+use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
-final class GetPomodoroSettingsUseCase
+final readonly class GetPomodoroSettingsUseCase
 {
     public function __construct(
-        private readonly UserAdapterInterface $userAdapter,
-        private readonly PomodoroSettingsRepository $settingsRepository,
-        private readonly TelegramAdapter $telegramAdapter
+        private UserAdapterInterface $userAdapter,
+        private PomodoroSettingsRepositoryInterface $pomodoroSettingsRepositoryInterface,
+        private TelegramAdapter $telegramAdapter
     ) {}
 
     public function execute(GetPomodoroSettingsDTO $data): void
@@ -22,7 +22,7 @@ final class GetPomodoroSettingsUseCase
         try {
             $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
 
-            if (!$user) {
+            if (! $user) {
                 $this->telegramAdapter->sendMessage(
                     chatId: $data->telegramId,
                     text: 'Пользователь не найден. Пожалуйста, сначала зарегистрируйтесь, используя команду /start'
@@ -31,9 +31,9 @@ final class GetPomodoroSettingsUseCase
                 return;
             }
 
-            $settings = $this->settingsRepository->getByUserId($user->id);
+            $settings = $this->pomodoroSettingsRepositoryInterface->getByUserId($user->id);
 
-            if (!$settings) {
+            if (! $settings) {
                 $this->telegramAdapter->sendMessage(
                     chatId: $data->telegramId,
                     text: 'У вас пока нет настроек Pomodoro. Используйте команду /addpomosettings для их настройки.'

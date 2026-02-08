@@ -7,10 +7,10 @@ use App\Core\Telegram\Application\Handlers\Command\CommandHandlerInterface;
 use App\Modules\Pomodoro\Application\DTOs\GetPomodoroSettingsDTO;
 use App\Modules\Pomodoro\Application\UseCases\GetPomodoroSettingsUseCase;
 
-final class GetPomodoroSettingsHandler implements CommandHandlerInterface
+final readonly class GetPomodoroSettingsHandler implements CommandHandlerInterface
 {
     public function __construct(
-        private readonly GetPomodoroSettingsUseCase $useCase
+        private GetPomodoroSettingsUseCase $useCase
     ) {}
 
     public function handle(CommandHandlerDTO $data): void
@@ -18,7 +18,7 @@ final class GetPomodoroSettingsHandler implements CommandHandlerInterface
         if ($data->telegramId === null) {
             return;
         }
-        
+
         $this->useCase->execute(new GetPomodoroSettingsDTO(telegramId: $data->telegramId));
     }
 }
