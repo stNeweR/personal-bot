@@ -15,20 +15,20 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class ProcessPomodoroStageJob implements ShouldQueue
+final class ProcessPomodoroStageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        private PomodoroSession $session,
-        private User $user,
-        private int $currentCycle = 1,
-        private PomodoroStatusValue $currentStatus = PomodoroStatusValue::WORK
+        private readonly PomodoroSession $session,
+        private readonly User $user,
+        private readonly int $currentCycle = 1,
+        private readonly PomodoroStatusValue $currentStatus = PomodoroStatusValue::WORK
     ) {}
 
     public function handle(TelegramApiClient $telegramApi): void
     {
-        $settings = PomodoroSettings::where('user_id', $this->user->id)->first();
+        $settings = PomodoroSettings::query()->where('user_id', $this->user->id)->first();
 
         if (! $settings) {
             Log::info('test');
@@ -77,7 +77,7 @@ class ProcessPomodoroStageJob implements ShouldQueue
         } elseif ($this->currentStatus === PomodoroStatusValue::FINISHED) {
             $this->finishSession($telegramApi);
         } else {
-            if ($this->currentCycle % $settings->cycles_before_long_break === 0 && $this->currentCycle !== $totalCycles) {
+            if ($this->currentCycle % $settings->cycles_before_long_break === 0 && $this->currentCycle !== $totalCycles && $settings->long_break_duration) {
                 Log::info('long_break');
                 $this->updateSessionStatus($this->session, PomodoroStatusValue::LONG_BREAK);
                 $telegramApi->sendMessage(new SendMessageDTO(
@@ -126,7 +126,7 @@ class ProcessPomodoroStageJob implements ShouldQueue
     {
         $this->session->update([
             'current_status' => PomodoroStatusValue::FINISHED,
-            'end_at' => now()
+            'end_at' => now(),
         ]);
         Log::info('finish');
         $telegramApi->sendMessage(new SendMessageDTO(

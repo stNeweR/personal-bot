@@ -14,8 +14,8 @@ final readonly class SetTelegramCommandsUseCase
     {
         $response = $this->telegramApiClient->setTelegramCommands();
 
-        if (!$response->ok) {
-            throw new \Exception('Failed to set Telegram commands: ' . ($response->description ?? 'Unknown error'));
+        if (! $response->ok) {
+            throw new \Exception('Failed to set Telegram commands: '.($response->description ?? 'Unknown error'));
         }
     }
 }

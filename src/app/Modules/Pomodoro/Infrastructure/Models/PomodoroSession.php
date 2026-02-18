@@ -7,7 +7,16 @@ use App\Modules\User\Infrastructure\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PomodoroSession extends Model
+/**
+ * @class PomodoroSession
+ *
+ * @property int $user_id
+ * @property PomodoroStatusValue $current_status
+ * @property \DateTime|null $start_at
+ * @property \DateTime|null $end_at
+ * @property int $current_cycle
+ */
+final class PomodoroSession extends Model
 {
     protected $table = 'pomodoro_session';
 
@@ -26,6 +35,9 @@ class PomodoroSession extends Model
         'current_cycle' => 'integer',
     ];
 
+    /**
+     * @return BelongsTo<User, $this>
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

@@ -44,11 +44,11 @@ final class TelegramApiClient implements TelegramApiClientInterface
     public function setTelegramCommands(): TelegramApiResponse
     {
         $commands = Config::get('telegram.commands_info', []);
-        
+
         $response = Http::post($this->telegramApiUrl.'/setMyCommands', [
-            'commands' => $commands
+            'commands' => $commands,
         ]);
-        
+
         return TelegramApiResponse::from($response->json());
     }
 }

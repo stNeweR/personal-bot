@@ -2,18 +2,18 @@
 
 namespace App\Modules\Pomodoro\Application\UseCases;
 
-use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
+use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
-use App\Modules\Pomodoro\Infrastructure\Repository\PomodoroSettingsRepository;
+use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
+use App\Modules\User\Domain\Contracts\UserAdapterInterface;
 use App\Modules\User\Domain\Enums\UserStateValue;
-use App\Modules\User\Infrastructure\Adapters\UserAdapter;
 
 final readonly class AddRepeatsCountUseCase
 {
     public function __construct(
-        private PomodoroSettingsRepository $pomodoroSettingsRepository,
-        private UserAdapter $userAdapter,
-        private TelegramAdapter $telegramAdapter
+        private PomodoroSettingsRepositoryInterface $pomodoroSettingsRepository,
+        private UserAdapterInterface $userAdapter,
+        private TelegramAdapterInterface $telegramAdapter
     ) {}
 
     public function execute(UseCaseStateHandlerDTO $data): void

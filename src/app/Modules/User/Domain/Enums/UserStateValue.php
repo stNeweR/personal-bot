@@ -16,6 +16,9 @@ enum UserStateValue: string
     case AWAITING_LONG_BREAK_DURATION = 'awaiting_long_break_duration';
     case AWAITING_CYCLES_BEFORE_LONG_BREAK = 'awaiting_cycles_before_long_break';
 
+    /**
+     * @return array<string>
+     */
     public static function values(): array
     {
         return [

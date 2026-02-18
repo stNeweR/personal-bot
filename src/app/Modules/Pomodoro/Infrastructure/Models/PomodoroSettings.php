@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 final class PomodoroSettings extends Model
 {
+    /** @use HasFactory<PomodoroSettingsFactory> */
     use HasFactory;
 
     protected $fillable = [

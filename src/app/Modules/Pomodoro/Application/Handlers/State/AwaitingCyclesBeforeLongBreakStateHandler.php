@@ -10,7 +10,7 @@ use App\Modules\Pomodoro\Application\UseCases\AddCyclesBeforeLongBreakUseCase;
 final readonly class AwaitingCyclesBeforeLongBreakStateHandler implements StateHandlerInterface
 {
     public function __construct(
-        private readonly AddCyclesBeforeLongBreakUseCase $useCase
+        private AddCyclesBeforeLongBreakUseCase $useCase
     ) {}
 
     public function handle(StateHandlerDTO $data): void
