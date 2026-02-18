@@ -15,10 +15,6 @@ final readonly class GetPomodoroSettingsHandler implements CommandHandlerInterfa
 
     public function handle(CommandHandlerDTO $data): void
     {
-        if ($data->telegramId === null) {
-            return;
-        }
-
         $this->useCase->execute(new GetPomodoroSettingsDTO(telegramId: $data->telegramId));
     }
 }

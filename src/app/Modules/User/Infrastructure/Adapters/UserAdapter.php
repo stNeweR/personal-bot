@@ -10,11 +10,11 @@ use App\Modules\User\Infrastructure\Repository\UserRepository;
 use App\Modules\User\Infrastructure\Repository\UserStateRepository;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-final class UserAdapter implements UserAdapterInterface
+final readonly class UserAdapter implements UserAdapterInterface
 {
     public function __construct(
-        public readonly UserRepository $userRepository,
-        public readonly UserStateRepository $userStateRepository
+        public UserRepository $userRepository,
+        public UserStateRepository $userStateRepository
     ) {}
 
     public function updateUserState(int $telegramId, UserStateValue $stateValue): UserState

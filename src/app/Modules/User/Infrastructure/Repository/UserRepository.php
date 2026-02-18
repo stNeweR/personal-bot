@@ -7,7 +7,7 @@ use App\Modules\User\Infrastructure\Models\User;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function createUser(string $telegramId): User
+    public function createUser(int $telegramId): User
     {
         return User::query()
             ->firstOrCreate([

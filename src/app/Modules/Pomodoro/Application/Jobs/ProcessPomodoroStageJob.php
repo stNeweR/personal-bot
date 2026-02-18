@@ -77,7 +77,7 @@ final class ProcessPomodoroStageJob implements ShouldQueue
         } elseif ($this->currentStatus === PomodoroStatusValue::FINISHED) {
             $this->finishSession($telegramApi);
         } else {
-            if ($this->currentCycle % $settings->cycles_before_long_break === 0 && $this->currentCycle !== $totalCycles) {
+            if ($this->currentCycle % $settings->cycles_before_long_break === 0 && $this->currentCycle !== $totalCycles && $settings->long_break_duration) {
                 Log::info('long_break');
                 $this->updateSessionStatus($this->session, PomodoroStatusValue::LONG_BREAK);
                 $telegramApi->sendMessage(new SendMessageDTO(

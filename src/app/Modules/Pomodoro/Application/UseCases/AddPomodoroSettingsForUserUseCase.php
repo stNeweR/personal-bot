@@ -2,18 +2,18 @@
 
 namespace App\Modules\Pomodoro\Application\UseCases;
 
-use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
+use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\Pomodoro\Application\DTOs\AddPomodoroSettingsDTO;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
 use App\Modules\User\Domain\Enums\UserStateValue;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
-final class AddPomodoroSettingsForUserUseCase
+final readonly class AddPomodoroSettingsForUserUseCase
 {
     public function __construct(
-        private readonly UserAdapterInterface $userAdapter,
-        private readonly TelegramAdapter $telegramAdapter
+        private UserAdapterInterface $userAdapter,
+        private TelegramAdapterInterface $telegramAdapter
     ) {}
 
     public function execute(AddPomodoroSettingsDTO $data): void

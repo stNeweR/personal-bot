@@ -2,7 +2,7 @@
 
 namespace App\Modules\Pomodoro\Application\UseCases;
 
-use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
+use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\Pomodoro\Application\DTOs\GetPomodoroSettingsDTO;
 use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
@@ -14,15 +14,15 @@ final readonly class GetPomodoroSettingsUseCase
     public function __construct(
         private UserAdapterInterface $userAdapter,
         private PomodoroSettingsRepositoryInterface $pomodoroSettingsRepositoryInterface,
-        private TelegramAdapter $telegramAdapter
+        private TelegramAdapterInterface $telegramAdapter
     ) {}
 
     public function execute(GetPomodoroSettingsDTO $data): void
     {
         try {
-            $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
-
-            if (! $user) {
+            try {
+                $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
+            } catch (ModelNotFoundException $e) {
                 $this->telegramAdapter->sendMessage(
                     chatId: $data->telegramId,
                     text: 'Пользователь не найден. Пожалуйста, сначала зарегистрируйтесь, используя команду /start'

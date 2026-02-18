@@ -2,26 +2,29 @@
 
 namespace App\Modules\Pomodoro\Application\UseCases;
 
+use App\Core\Telegram\Domain\Contracts\TelegramApiClientInterface;
 use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\SendMessageDTO;
-use App\Core\Telegram\Infrastructure\Services\Telegram\TelegramApiClient;
 use App\Modules\Pomodoro\Application\DTOs\StartPomodoroDTO;
 use App\Modules\Pomodoro\Application\Jobs\ProcessPomodoroStageJob;
 use App\Modules\Pomodoro\Domain\Enums\PomodoroStatusValue;
 use App\Modules\Pomodoro\Domain\Repository\PomodoroSessionsRepositoryInterface;
-use App\Modules\User\Infrastructure\Models\User;
+use App\Modules\User\Domain\Contracts\UserAdapterInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final readonly class StartPomodoroUseCase
 {
     public function __construct(
-        private PomodoroSessionsRepositoryInterface $pomodoroSessionsRepository
+        private PomodoroSessionsRepositoryInterface $pomodoroSessionsRepository,
+        private UserAdapterInterface $userAdapter,
+        private TelegramApiClientInterface $telegramApiClient,
     ) {}
 
     public function execute(StartPomodoroDTO $data): void
     {
-        $user = User::where('telegram_id', $data->telegramId)->first();
-
-        if (! $user) {
-            (new TelegramApiClient)->sendMessage(new SendMessageDTO(
+        try {
+            $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
+        } catch (ModelNotFoundException) {
+            $this->telegramApiClient->sendMessage(new SendMessageDTO(
                 $data->telegramId,
                 'Сначала авторизуйтесь в боте командой /start'
             ));
@@ -32,7 +35,7 @@ final readonly class StartPomodoroUseCase
         $activeSession = $this->pomodoroSessionsRepository->findActiveSession($user->id);
 
         if ($activeSession) {
-            (new TelegramApiClient)->sendMessage(new SendMessageDTO(
+            $this->telegramApiClient->sendMessage(new SendMessageDTO(
                 $data->telegramId,
                 'У вас уже есть активная сессия'
             ));
@@ -43,6 +46,5 @@ final readonly class StartPomodoroUseCase
         $session = $this->pomodoroSessionsRepository->create($user->id);
 
         ProcessPomodoroStageJob::dispatch($session, $user, 1, PomodoroStatusValue::WORK);
-
     }
 }

@@ -2,27 +2,30 @@
 
 namespace App\Modules\Pomodoro\Application\UseCases;
 
-use App\Core\Telegram\Infrastructure\Services\Telegram\DTOs\SendMessageDTO;
-use App\Core\Telegram\Infrastructure\Services\Telegram\TelegramApiClient;
+use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\Pomodoro\Application\DTOs\GetTodaySessionsDTO;
 use App\Modules\Pomodoro\Domain\Repository\PomodoroSessionsRepositoryInterface;
-use App\Modules\User\Infrastructure\Models\User;
+use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSession;
+use App\Modules\User\Domain\Contracts\UserAdapterInterface;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 final readonly class GetTodaySessionsUseCase
 {
     public function __construct(
+        private UserAdapterInterface $userAdapter,
+        private TelegramAdapterInterface $telegramAdapter,
         private PomodoroSessionsRepositoryInterface $pomodoroSessionsRepository
     ) {}
 
     public function execute(GetTodaySessionsDTO $data): void
     {
-        $user = User::where('telegram_id', $data->telegramId)->first();
-
-        if (! $user) {
-            (new TelegramApiClient)->sendMessage(new SendMessageDTO(
-                $data->telegramId,
-                'Сначала авторизуйтесь в боте командой /start'
-            ));
+        try {
+            $user = $this->userAdapter->getUserByTelegramId($data->telegramId);
+        } catch (ModelNotFoundException $e) {
+            $this->telegramAdapter->sendMessage(
+                chatId: $data->telegramId,
+                text: 'Сначала авторизуйтесь в боте командой /start'
+            );
 
             return;
         }
@@ -30,10 +33,10 @@ final readonly class GetTodaySessionsUseCase
         $todaySessions = $this->pomodoroSessionsRepository->getTodaySessions($user->id);
 
         if ($todaySessions->isEmpty()) {
-            (new TelegramApiClient)->sendMessage(new SendMessageDTO(
+            $this->telegramAdapter->sendMessage(
                 $data->telegramId,
                 'У вас нет сессий за сегодняшний день.'
-            ));
+            );
 
             return;
         }
@@ -45,15 +48,20 @@ final readonly class GetTodaySessionsUseCase
         $table .= "+---+---------------+---------------+------+----------------+\n";
 
         foreach ($todaySessions as $index => $session) {
+            /** @var PomodoroSession $session */
+            if (is_null($session->start_at)) {
+                continue;
+            }
             $startTime = $session->start_at->format('H:i:s');
+
             $status = $this->getStatusText($session->current_status->value);
             $cycle = $session->current_cycle;
             $endTime = $session->end_at ? $session->end_at->format('H:i:s') : '-';
 
-            $num = str_pad($index + 1, 2, ' ', STR_PAD_BOTH);
+            $num = str_pad((string) ($index + 1), 2, ' ', STR_PAD_BOTH);
             $startTimePad = str_pad($startTime, 14, ' ', STR_PAD_RIGHT);
             $statusPad = str_pad(mb_substr($status, 0, 14), 14, ' ', STR_PAD_RIGHT);
-            $cyclePad = str_pad($cycle, 4, ' ', STR_PAD_BOTH);
+            $cyclePad = str_pad((string) $cycle, 4, ' ', STR_PAD_BOTH);
             $endTimePad = str_pad($endTime, 15, ' ', STR_PAD_RIGHT);
 
             $table .= '| '.$num.' | '.$startTimePad.' | '.$statusPad.' | '.$cyclePad.' | '.$endTimePad." |\n";
@@ -62,10 +70,10 @@ final readonly class GetTodaySessionsUseCase
         $table .= "+---+---------------+---------------+------+----------------+\n";
         $table .= '</pre>';
 
-        (new TelegramApiClient)->sendMessage(new SendMessageDTO(
-            $data->telegramId,
-            $table
-        ));
+        $this->telegramAdapter->sendMessage(
+            chatId: $data->telegramId,
+            text: $table
+        );
     }
 
     private function getStatusText(string $status): string

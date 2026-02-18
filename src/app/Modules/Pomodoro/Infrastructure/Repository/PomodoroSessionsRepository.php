@@ -27,12 +27,14 @@ final class PomodoroSessionsRepository implements PomodoroSessionsRepositoryInte
             ->first();
     }
 
+    /**
+     * @return Collection<int, PomodoroSession>
+     */
     public function getTodaySessions(int $userId): Collection
     {
         return PomodoroSession::where('user_id', $userId)
             ->whereDate('start_at', Carbon::today())
             ->orderBy('start_at', 'asc')
             ->get();
-
     }
 }

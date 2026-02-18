@@ -11,5 +11,6 @@ interface PomodoroSessionsRepositoryInterface
 
     public function findActiveSession(int $userId): ?PomodoroSession;
 
+    /** @return Collection<int, PomodoroSession> */
     public function getTodaySessions(int $userId): Collection;
 }

@@ -18,11 +18,10 @@ final readonly class HandlerDispatcher
 
     public function dispatch(TelegramUpdateDTO $data): void
     {
-        $userState = $this->userStateRepository->getUserStateByTelegramId($data->userId);
-
-        $command = $data->getCommand();
-
         try {
+            $userState = $this->userStateRepository->getUserStateByTelegramId($data->userId);
+            $command = $data->getCommand();
+
             if ($command) {
                 $this->commandStrategy->execute($command, $data);
 
@@ -34,11 +33,6 @@ final readonly class HandlerDispatcher
 
                 return;
             }
-
-            // if ($data->messageText) {
-            //     $this->handleMessage($data);
-            //     return;
-            // }
         } catch (\Exception $exception) {
             $this->handleError($data);
             Log::warning($exception->getMessage(), $data->toArray());

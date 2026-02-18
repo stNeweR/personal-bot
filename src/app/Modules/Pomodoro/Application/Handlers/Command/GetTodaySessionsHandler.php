@@ -15,10 +15,6 @@ final readonly class GetTodaySessionsHandler implements CommandHandlerInterface
 
     public function handle(CommandHandlerDTO $data): void
     {
-        if ($data->telegramId === null) {
-            return;
-        }
-
         $this->useCase->execute(new GetTodaySessionsDTO(telegramId: $data->telegramId));
     }
 }

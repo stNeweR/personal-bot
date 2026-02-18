@@ -3,7 +3,7 @@
 namespace App\Modules\User\Application\UseCases;
 
 use App\Core\Telegram\Application\Handlers\Command\CommandHandlerDTO;
-use App\Core\Telegram\Infrastructure\Adapters\TelegramAdapter;
+use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\User\Domain\Repository\UserRepositoryInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -11,7 +11,7 @@ final readonly class CreateTelegramUserUseCase
 {
     public function __construct(
         private UserRepositoryInterface $userRepository,
-        private TelegramAdapter $telegramAdapter
+        private TelegramAdapterInterface $telegramAdapter
     ) {}
 
     public function execute(CommandHandlerDTO $data): void
