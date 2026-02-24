@@ -24,7 +24,7 @@ final readonly class GetTodaySessionsUseCase
         } catch (ModelNotFoundException $e) {
             $this->telegramAdapter->sendMessage(
                 chatId: $data->telegramId,
-                text: 'Сначала авторизуйтесь в боте командой /start'
+                text: __('pomodoro.authorize_first')
             );
 
             return;
@@ -35,16 +35,16 @@ final readonly class GetTodaySessionsUseCase
         if ($todaySessions->isEmpty()) {
             $this->telegramAdapter->sendMessage(
                 $data->telegramId,
-                'У вас нет сессий за сегодняшний день.'
+                __('pomodoro.no_sessions_today')
             );
 
             return;
         }
 
-        $table = "<b>Сессии за сегодня:</b>\n\n";
+        $table = '<b>'.__('pomodoro.sessions_header')."</b>\n\n";
         $table .= '<pre>';
         $table .= "+---+---------------+---------------+------+----------------+\n";
-        $table .= "| № | Время начала  | Статус        | Цикл | Время окончания|\n";
+        $table .= '| '.__('pomodoro.table_header_num').' | '.__('pomodoro.table_header_start_time').'  | '.__('pomodoro.table_header_status').'       | '.__('pomodoro.table_header_cycle').'  | '.__('pomodoro.table_header_end_time')."|\n";
         $table .= "+---+---------------+---------------+------+----------------+\n";
 
         foreach ($todaySessions as $index => $session) {
@@ -79,11 +79,11 @@ final readonly class GetTodaySessionsUseCase
     private function getStatusText(string $status): string
     {
         $statusMap = [
-            'paused' => 'Пауза',
-            'finished' => 'Завершено',
-            'work' => 'Работа',
-            'break' => 'Перерыв',
-            'long_break' => 'Длинный перерыв',
+            'paused' => __('pomodoro.status_paused'),
+            'finished' => __('pomodoro.status_finished'),
+            'work' => __('pomodoro.status_work'),
+            'break' => __('pomodoro.status_break'),
+            'long_break' => __('pomodoro.status_long_break'),
         ];
 
         return $statusMap[$status] ?? $status;

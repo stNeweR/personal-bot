@@ -8,6 +8,7 @@ use App\Modules\Pomodoro\Application\DTOs\StartPomodoroDTO;
 use App\Modules\Pomodoro\Application\Jobs\ProcessPomodoroStageJob;
 use App\Modules\Pomodoro\Domain\Enums\PomodoroStatusValue;
 use App\Modules\Pomodoro\Domain\Repository\PomodoroSessionsRepositoryInterface;
+use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -17,6 +18,7 @@ final readonly class StartPomodoroUseCase
         private PomodoroSessionsRepositoryInterface $pomodoroSessionsRepository,
         private UserAdapterInterface $userAdapter,
         private TelegramApiClientInterface $telegramApiClient,
+        private PomodoroSettingsRepositoryInterface $pomodoroSettingsRepository,
     ) {}
 
     public function execute(StartPomodoroDTO $data): void
@@ -26,7 +28,17 @@ final readonly class StartPomodoroUseCase
         } catch (ModelNotFoundException) {
             $this->telegramApiClient->sendMessage(new SendMessageDTO(
                 $data->telegramId,
-                'Сначала авторизуйтесь в боте командой /start'
+                __('pomodoro.authorize_first')
+            ));
+
+            return;
+        }
+
+        $settings = $this->pomodoroSettingsRepository->getByUserId($user->id);
+        if (is_null($settings)) {
+            $this->telegramApiClient->sendMessage(new SendMessageDTO(
+                $data->telegramId,
+                __('pomodoro.add_settings_first')
             ));
 
             return;
@@ -37,7 +49,7 @@ final readonly class StartPomodoroUseCase
         if ($activeSession) {
             $this->telegramApiClient->sendMessage(new SendMessageDTO(
                 $data->telegramId,
-                'У вас уже есть активная сессия'
+                __('pomodoro.active_session_exists')
             ));
 
             return;

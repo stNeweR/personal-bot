@@ -25,7 +25,7 @@ final readonly class GetPomodoroSettingsUseCase
             } catch (ModelNotFoundException $e) {
                 $this->telegramAdapter->sendMessage(
                     chatId: $data->telegramId,
-                    text: 'Пользователь не найден. Пожалуйста, сначала зарегистрируйтесь, используя команду /start'
+                    text: __('pomodoro.user_not_found')
                 );
 
                 return;
@@ -36,7 +36,7 @@ final readonly class GetPomodoroSettingsUseCase
             if (! $settings) {
                 $this->telegramAdapter->sendMessage(
                     chatId: $data->telegramId,
-                    text: 'У вас пока нет настроек Pomodoro. Используйте команду /addpomosettings для их настройки.'
+                    text: __('pomodoro.no_settings')
                 );
 
                 return;
@@ -45,16 +45,18 @@ final readonly class GetPomodoroSettingsUseCase
             $workDuration = $settings->work_duration;
             $breakDuration = $settings->break_duration;
             $repeatsCount = $settings->repeats_count;
-            $longBreakDuration = $settings->long_break_duration ?: 'не установлено';
-            $cyclesBeforeLongBreak = $settings->cycles_before_long_break ?: 'не установлено';
 
-            $message = "Ваши текущие настройки Pomodoro:\n\n";
-            $message .= "⏱️ Рабочее время: {$workDuration} мин\n";
-            $message .= "⏸️ Время перерыва: {$breakDuration} мин\n";
-            $message .= "🔄 Количество повторений: {$repeatsCount}\n";
-            $message .= "⏸️ Длительный перерыв: {$longBreakDuration} мин\n";
-            $message .= "🔄 Циклов перед длинным перерывом: {$cyclesBeforeLongBreak} \n";
-            $message .= 'Чтобы запустить таймер вызовите команду /startpomodoro';
+            $message = __('pomodoro.settings_header')."\n\n";
+            $message .= __('pomodoro.work_time', ['duration' => $workDuration])."\n";
+            $message .= __('pomodoro.break_time', ['duration' => $breakDuration])."\n";
+            $message .= __('pomodoro.repeats_count', ['count' => $repeatsCount])."\n";
+            if (!is_null($settings->long_break_duration)) {
+                $message .= __('pomodoro.long_break_duration', ['duration' => $settings->long_break_duration])."\n";
+            }
+            if (!is_null($settings->cycles_before_long_break)) {
+                $message .= __('pomodoro.cycles_before_long_break', ['count' => $settings->cycles_before_long_break])." \n";
+            }
+            $message .= __('pomodoro.start_timer_hint');
 
             $this->telegramAdapter->sendMessage(
                 chatId: $data->telegramId,
@@ -63,7 +65,7 @@ final readonly class GetPomodoroSettingsUseCase
         } catch (ModelNotFoundException $e) {
             $this->telegramAdapter->sendMessage(
                 chatId: $data->telegramId,
-                text: 'Произошла ошибка при получении ваших данных. Попробуйте позже.'
+                text: __('pomodoro.error_getting_data')
             );
 
             Log::error('Не удалось получить настройки пользователя: '.$data->telegramId.'. Ошибка - '.$e->getMessage());

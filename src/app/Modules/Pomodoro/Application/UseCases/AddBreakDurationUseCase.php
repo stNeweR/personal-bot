@@ -24,6 +24,6 @@ final readonly class AddBreakDurationUseCase
 
         $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_REPEATS_COUNT);
 
-        $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили время перерыва. Теперь введите количество повторов');
+        $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.break_duration_saved'));
     }
 }

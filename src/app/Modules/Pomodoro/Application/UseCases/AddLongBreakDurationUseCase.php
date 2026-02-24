@@ -24,6 +24,6 @@ final readonly class AddLongBreakDurationUseCase
 
         $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK);
 
-        $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили длительность длинного перерыва. Теперь введите количество циклов до длинного перерыва');
+        $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.long_break_duration_saved'));
     }
 }

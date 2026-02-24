@@ -23,12 +23,12 @@ final readonly class AddPomodoroSettingsForUserUseCase
 
             $this->telegramAdapter->sendMessage(
                 chatId: $data->telegramId,
-                text: 'Пожалуйста теперь введите длительность рабочего времени (одного помодоро)'
+                text: __('pomodoro.enter_work_duration')
             );
         } catch (ModelNotFoundException $e) {
             $this->telegramAdapter->sendMessage(
                 chatId: $data->telegramId,
-                text: 'Попробуйте позже'
+                text: __('pomodoro.try_later')
             );
 
             Log::error('Не удалось сохранить состояние пользователя: '.$data->telegramId.'. Ошибка - '.$e->getMessage());

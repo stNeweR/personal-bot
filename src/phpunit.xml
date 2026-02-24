@@ -37,5 +37,6 @@
         <env name="NIGHTWATCH_ENABLED" value="false"/>
         <env name="TELEGRAM_BOT_TOKEN" value="123:bot" />
         <env name="TELEGRAM_URL" value="https://test-tg.ru"/>
+        <env name="APPLICATION_WEBHOOK_ENDPOINT" value="https://my-bot.loca.lt/api/v1/telegram-webhook" />
     </php>
 </phpunit>

@@ -25,11 +25,11 @@ final readonly class AddWorkDurationUseCase
         if (is_null($settings)) {
             $this->pomodoroSettingsRepository->create($user->id, (int) $data->message);
 
-            $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили рабочее время. Теперь введите время перерыва');
+            $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.work_duration_saved'));
         } else {
             $this->pomodoroSettingsRepository->update($user->id, 'work_duration', (int) $data->message);
 
-            $this->telegramAdapter->sendMessage($user->telegram_id, 'У вас уже была настройка для помодоро таймера. Рабочее время обновлено. Теперь введите время перерыва');
+            $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.work_duration_updated'));
         }
         $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_BREAK_DURATION);
     }

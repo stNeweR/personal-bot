@@ -20,10 +20,10 @@ final class ProcessPomodoroStageJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        private readonly PomodoroSession $session,
-        private readonly User $user,
-        private readonly int $currentCycle = 1,
-        private readonly PomodoroStatusValue $currentStatus = PomodoroStatusValue::WORK
+        public readonly PomodoroSession $session,
+        public readonly User $user,
+        public readonly int $currentCycle = 1,
+        public readonly PomodoroStatusValue $currentStatus = PomodoroStatusValue::WORK
     ) {}
 
     public function handle(TelegramApiClient $telegramApi): void
@@ -34,7 +34,7 @@ final class ProcessPomodoroStageJob implements ShouldQueue
             Log::info('test');
             $telegramApi->sendMessage(new SendMessageDTO(
                 chatId: $this->user->telegram_id,
-                text: 'Сначала установите настройки Pomodoro с помощью команды /addpomosettings'
+                text: __('pomodoro.setup_pomodoro_first')
             ));
 
             return;
@@ -53,7 +53,7 @@ final class ProcessPomodoroStageJob implements ShouldQueue
             $this->updateSessionStatus($this->session, PomodoroStatusValue::WORK);
             $telegramApi->sendMessage(new SendMessageDTO(
                 chatId: $this->user->telegram_id,
-                text: "Пора работать! Работайте в течение {$settings->work_duration} минут."
+                text: __('pomodoro.work_started', ['duration' => $settings->work_duration])
             ));
 
             $delay = now()->addMinutes($settings->work_duration);
@@ -82,7 +82,10 @@ final class ProcessPomodoroStageJob implements ShouldQueue
                 $this->updateSessionStatus($this->session, PomodoroStatusValue::LONG_BREAK);
                 $telegramApi->sendMessage(new SendMessageDTO(
                     chatId: $this->user->telegram_id,
-                    text: "Длинный перерыв после {$this->currentCycle} цикла. Отдохните {$settings->long_break_duration} минут."
+                    text: __('pomodoro.long_break_started', [
+                        'cycle' => $this->currentCycle,
+                        'duration' => $settings->long_break_duration,
+                    ])
                 ));
 
                 $delay = now()->addMinutes($settings->long_break_duration);
@@ -99,7 +102,7 @@ final class ProcessPomodoroStageJob implements ShouldQueue
 
                 $telegramApi->sendMessage(new SendMessageDTO(
                     chatId: $this->user->telegram_id,
-                    text: "Короткий перерыв. Отдохните {$settings->break_duration} минут."
+                    text: __('pomodoro.short_break_started', ['duration' => $settings->break_duration])
                 ));
 
                 $delay = now()->addMinutes($settings->break_duration);
@@ -131,7 +134,7 @@ final class ProcessPomodoroStageJob implements ShouldQueue
         Log::info('finish');
         $telegramApi->sendMessage(new SendMessageDTO(
             chatId: $this->user->telegram_id,
-            text: 'Поздравляем! Вы завершили все циклы Pomodoro.'
+            text: __('pomodoro.pomodoro_completed')
         ));
     }
 }

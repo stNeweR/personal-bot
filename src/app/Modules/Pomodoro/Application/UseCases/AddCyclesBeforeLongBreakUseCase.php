@@ -21,13 +21,13 @@ final readonly class AddCyclesBeforeLongBreakUseCase
         $settings = $this->pomodoroSettingsRepository->getByUserId($user->id);
 
         if ($settings !== null && (int) $data->message >= $settings->repeats_count) {
-            $this->telegramAdapter->sendMessage($user->telegram_id, 'Количество повторов до длинного перерыва должно быть меньше общего количества повторов. Введите ещё раз количество повторов до длинного перерыва');
+            $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.cycles_exceed_repeats'));
         } else {
             $this->pomodoroSettingsRepository->update($user->id, 'cycles_before_long_break', (int) $data->message);
 
             $this->userAdapter->clearUserState($user->telegram_id);
 
-            $this->telegramAdapter->sendMessage($user->telegram_id, 'Успешно сохранили количество циклов до длинного перерыва. Настройка завершена! Теперь можете вызвать команду /startpomodoro чтобы начать работать');
+            $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.cycles_saved'));
         }
     }
 }

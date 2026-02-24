@@ -11,10 +11,14 @@ abstract class TestCase extends BaseTestCase
 
     protected string $telegramWebhookUrl;
 
+    protected string $telegramUrl;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->telegramWebhookUrl = config('telegram.application_webhook_endpoint');
+        $this->telegramUrl = config('telegram.telegram_url');
+        $this->botToken = config('telegram.telegram_bot_token');
     }
 }

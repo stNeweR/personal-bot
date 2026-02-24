@@ -21,14 +21,14 @@ final readonly class CreateTelegramUserUseCase
 
             $this->telegramAdapter->sendMessage(
                 $data->telegramId,
-                'Вы уже пользовались ботом. Для того чтобы посмотреть свои настройки таймера, выполните команду /getpomosettings.'
+                __('user.already_registered')
             );
         } catch (ModelNotFoundException $e) {
             $this->userRepository->createUser($data->telegramId);
 
             $this->telegramAdapter->sendMessage(
                 $data->telegramId,
-                'Для того чтобы начать пользоваться ботом, добавьте настройки для помодоро таймера командой - /addpomosettings'
+                __('user.welcome')
             );
         }
     }

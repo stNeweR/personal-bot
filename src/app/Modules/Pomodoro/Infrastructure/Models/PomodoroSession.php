@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @class PomodoroSession
  *
+ * @property int $id
  * @property int $user_id
  * @property PomodoroStatusValue $current_status
  * @property \DateTime|null $start_at
