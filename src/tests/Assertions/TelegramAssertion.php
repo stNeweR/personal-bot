@@ -2,12 +2,40 @@
 
 namespace Tests\Assertions;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
 trait TelegramAssertion
 {
-    public function assertTelegramRequestSent(string $endpoint, array $expectedData = []): void
+    public function getTelegramRequests(?string $endpoint = null): Collection
     {
+        $telegramUrl = config('telegram.telegram_url');
+        $botToken = config('telegram.telegram_bot_token');
+
+        $allRequests = Http::recorded();
+
+        if ($endpoint === null) {
+            return collect($allRequests)
+                ->filter(
+                    fn ($pair) => str_contains(
+                        $pair[0]->url(),
+                        '/bot'.$botToken,
+                    ),
+                )
+                ->map(fn ($pair) => $pair[0]);
+        }
+
+        $fullUrl = $telegramUrl.'/bot'.$botToken.$endpoint;
+
+        return collect($allRequests)
+            ->filter(fn ($pair) => $pair[0]->url() === $fullUrl)
+            ->map(fn ($pair) => $pair[0]);
+    }
+
+    public function assertTelegramRequestSent(
+        string $endpoint,
+        array $expectedData = [],
+    ): void {
         $telegramUrl = config('telegram.telegram_url');
         $botToken = config('telegram.telegram_bot_token');
         $fullUrl = $telegramUrl.'/bot'.$botToken.$endpoint;
@@ -27,8 +55,10 @@ trait TelegramAssertion
         });
     }
 
-    public function assertTelegramMessageSent(int $chatId, ?string $text = null): void
-    {
+    public function assertTelegramMessageSent(
+        int $chatId,
+        ?string $text = null,
+    ): void {
         $telegramUrl = config('telegram.telegram_url');
         $botToken = config('telegram.telegram_bot_token');
         $fullUrl = $telegramUrl.'/bot'.$botToken.'/sendMessage';

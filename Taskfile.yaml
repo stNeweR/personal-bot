@@ -7,6 +7,11 @@ tasks:
     desc: Сборка всех контейнеров
     cmds:
       - docker compose build
+      
+  up:
+    desc: Запуск всех сервисов
+    cmds:
+      - docker compose up -d
 
   up-lt:
     desc: Запуск всех сервисов и localtunnel

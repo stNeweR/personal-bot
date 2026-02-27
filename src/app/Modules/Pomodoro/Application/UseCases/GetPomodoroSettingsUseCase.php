@@ -50,10 +50,10 @@ final readonly class GetPomodoroSettingsUseCase
             $message .= __('pomodoro.work_time', ['duration' => $workDuration])."\n";
             $message .= __('pomodoro.break_time', ['duration' => $breakDuration])."\n";
             $message .= __('pomodoro.repeats_count', ['count' => $repeatsCount])."\n";
-            if (!is_null($settings->long_break_duration)) {
+            if (! is_null($settings->long_break_duration)) {
                 $message .= __('pomodoro.long_break_duration', ['duration' => $settings->long_break_duration])."\n";
             }
-            if (!is_null($settings->cycles_before_long_break)) {
+            if (! is_null($settings->cycles_before_long_break)) {
                 $message .= __('pomodoro.cycles_before_long_break', ['count' => $settings->cycles_before_long_break])." \n";
             }
             $message .= __('pomodoro.start_timer_hint');

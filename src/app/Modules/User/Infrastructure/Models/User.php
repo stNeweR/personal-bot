@@ -14,10 +14,12 @@ use Illuminate\Notifications\Notifiable;
  * @property int $id
  * @property int $telegram_id
  */
-class User extends Authenticatable
+final class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
+
+    protected $table = 'users';
 
     protected $fillable = [
         'telegram_id',

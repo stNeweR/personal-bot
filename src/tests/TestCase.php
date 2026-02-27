@@ -13,6 +13,8 @@ abstract class TestCase extends BaseTestCase
 
     protected string $telegramUrl;
 
+    protected const string SEND_MESSAGE_ENDPOINT = '/sendMessage';
+
     protected function setUp(): void
     {
         parent::setUp();

@@ -79,7 +79,7 @@ final class StartPomodoroTest extends TestCase
         });
     }
 
-    public function test_send_not_found_user(): void
+    public function test_not_found_user(): void
     {
         $this->postJson($this->telegramWebhookUrl, $this->telegramMessageProvider())
             ->assertOk();
