@@ -61,10 +61,10 @@ jobs:
         run: cp .env.example .env.testing
 
       - name: Generate application key
-        run: php artisan key:generate
+        run: php artisan key:generate --env=.env.testing
 
       - name: Run database migrations
-        run: php artisan migrate --force
+        run: php artisan migrate --env=.env.testing --force
 
       - name: Run Laravel Pint (style check)
         run: ./vendor/bin/pint --test
@@ -75,7 +75,7 @@ jobs:
         continue-on-error: false
 
       - name: Run Tests
-        run: php artisan test --colors=always
+        run: php artisan test --env=.env.testing --colors=always
         continue-on-error: false
 
       - name: 🎉 All checks passed!
