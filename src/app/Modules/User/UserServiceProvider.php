@@ -10,7 +10,7 @@ use App\Modules\User\Infrastructure\Repository\UserRepository;
 use App\Modules\User\Infrastructure\Repository\UserStateRepository;
 use Illuminate\Support\ServiceProvider;
 
-class UserServiceProvider extends ServiceProvider
+final class UserServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

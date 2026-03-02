@@ -4,6 +4,7 @@ namespace App\Modules\Pomodoro\Infrastructure\Models;
 
 use App\Modules\Pomodoro\Domain\Enums\PomodoroStatusValue;
 use App\Modules\User\Infrastructure\Models\User;
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -13,8 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $user_id
  * @property PomodoroStatusValue $current_status
- * @property \DateTime|null $start_at
- * @property \DateTime|null $end_at
+ * @property DateTime|null $start_at
+ * @property DateTime|null $end_at
  * @property int $current_cycle
  */
 final class PomodoroSession extends Model

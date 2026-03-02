@@ -30,9 +30,11 @@ return new class extends Migration
                 ->comment('Количество повторений');
 
             $table->unsignedInteger('long_break_duration')
+                ->nullable()
                 ->default(10)
                 ->comment('Длительность длинного перерыва (минуты)');
             $table->unsignedSmallInteger('cycles_before_long_break')
+                ->nullable()
                 ->default(2)
                 ->comment('Количество циклов перед длинным перерывом');
 

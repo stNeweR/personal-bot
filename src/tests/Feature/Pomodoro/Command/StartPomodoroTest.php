@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Pomodoro;
+namespace Tests\Feature\Pomodoro\Command;
 
 use App\Modules\Pomodoro\Application\Jobs\ProcessPomodoroStageJob;
 use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSettings;

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Tests\Feature\Pomodoro;
+namespace Tests\Feature\Pomodoro\State;
 
+use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSettings;
 use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
@@ -11,7 +12,7 @@ use Tests\Assertions\TelegramAssertion;
 use Tests\SetUps\SetupTelegram;
 use Tests\TestCase;
 
-final class AddPomodroSettingsTest extends TestCase
+final class AwaitingRepeatsCountTest extends TestCase
 {
     use SetupTelegram, TelegramAssertion;
 
@@ -24,7 +25,7 @@ final class AddPomodroSettingsTest extends TestCase
     /**
      * @return array<string, mixed>
      */
-    private function telegramMessageProvider(): array
+    private function telegramMessageProvider(string $message): array
     {
         return [
             'update_id' => 1001,
@@ -46,58 +47,59 @@ final class AddPomodroSettingsTest extends TestCase
                     'username' => 'testuser',
                 ],
                 'date' => time(),
-                'text' => '/addpomosettings',
+                'text' => $message,
             ],
         ];
     }
 
-    public function test_send_command(): void
+    public function test_awaiting_repeats_count_user_not_found(): void
     {
-        $data = $this->telegramMessageProvider();
-        $chatId = $data['message']['from']['id'];
-
-        User::factory()->createOne([
-            'telegram_id' => $chatId,
-        ]);
-
-        $this->postJson($this->telegramWebhookUrl, $data)->assertOk();
-
-        $requests = $this->getTelegramRequests(self::SEND_MESSAGE_ENDPOINT);
-
-        $this->assertCount(1, $requests);
-        $this->assertTelegramMessageSent(
-            $chatId,
-            __('pomodoro.enter_work_duration'),
-        );
-    }
-
-    public function test_send_command_when_user_not_found(): void
-    {
-        $data = $this->telegramMessageProvider();
+        $data = $this->telegramMessageProvider('4');
         $chatId = $data['message']['from']['id'];
 
         $this->postJson($this->telegramWebhookUrl, $data)->assertOk();
 
         $requests = $this->getTelegramRequests(self::SEND_MESSAGE_ENDPOINT);
 
-        $this->assertCount(1, $requests);
-        $this->assertTelegramMessageSent($chatId, __('pomodoro.try_later'));
+        $this->assertCount(0, $requests);
     }
 
-    public function test_send_command_updates_user_state(): void
+    public function test_awaiting_repeats_count_success(): void
     {
-        $data = $this->telegramMessageProvider();
+        $data = $this->telegramMessageProvider('4');
         $chatId = $data['message']['from']['id'];
 
         $user = User::factory()->createOne([
             'telegram_id' => $chatId,
         ]);
 
+        PomodoroSettings::factory()->createOne([
+            'user_id' => $user->id,
+            'work_duration' => 25,
+            'break_duration' => 5,
+            'repeats_count' => 3,
+        ]);
+
+        UserState::factory()->createOne([
+            'user_id' => $user->id,
+            'state_value' => UserStateValue::AWAITING_REPEATS_COUNT->value,
+        ]);
+
         $this->postJson($this->telegramWebhookUrl, $data)->assertOk();
 
+        $requests = $this->getTelegramRequests(self::SEND_MESSAGE_ENDPOINT);
+
+        $this->assertCount(1, $requests);
+        $this->assertTelegramMessageSent($chatId, __('pomodoro.repeats_count_saved'));
+
+        $this->assertDatabaseHas(PomodoroSettings::class, [
+            'user_id' => $user->id,
+            'repeats_count' => 4,
+        ]);
+
         $this->assertDatabaseHas(UserState::class, [
-            'id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_WORK_DURATION->value,
+            'user_id' => $user->id,
+            'state_value' => UserStateValue::AWAITING_LONG_BREAK_DURATION->value,
         ]);
     }
 }

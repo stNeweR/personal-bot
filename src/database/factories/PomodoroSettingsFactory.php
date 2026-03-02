@@ -16,8 +16,8 @@ final class PomodoroSettingsFactory extends Factory
             'work_duration' => fake()->numberBetween(1, 100),
             'break_duration' => fake()->numberBetween(1, 100),
             'repeats_count' => fake()->numberBetween(1, 100),
-            'long_break_duration' => fake()->numberBetween(1, 100),
-            'cycles_before_long_break' => fake()->numberBetween(1, 100),
+            'long_break_duration' => null,
+            'cycles_before_long_break' => null,
         ];
     }
 }

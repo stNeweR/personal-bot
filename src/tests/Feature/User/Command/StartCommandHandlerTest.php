@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature\User;
+namespace Tests\Feature\User\Command;
 
 use App\Modules\User\Infrastructure\Models\User;
 use Tests\Assertions\TelegramAssertion;
 use Tests\SetUps\SetupTelegram;
 use Tests\TestCase;
 
-final class StartCommandTest extends TestCase
+final class StartCommandHandlerTest extends TestCase
 {
     use SetupTelegram, TelegramAssertion;
 
@@ -18,7 +18,7 @@ final class StartCommandTest extends TestCase
         $this->setupTelegramApi();
     }
 
-    public function test_send_first_command(): void
+    public function test_not_registered_user(): void
     {
         $telegramId = 123456789;
 
@@ -54,7 +54,6 @@ final class StartCommandTest extends TestCase
         ]);
 
         $response->assertOk();
-
         $this->assertTelegramMessageContains(__('user.welcome'));
         $this->assertTelegramMessageSent($telegramId, __('user.welcome'));
         $this->assertDatabaseHas(User::class, [
@@ -62,13 +61,10 @@ final class StartCommandTest extends TestCase
         ]);
     }
 
-    public function test_send_more_command(): void
+    public function test_registered_user(): void
     {
         $telegramId = 123456789;
-
-        User::factory()->createOne([
-            'telegram_id' => $telegramId,
-        ]);
+        User::factory()->createOne(['telegram_id' => $telegramId]);
 
         $response = $this->postJson($this->telegramWebhookUrl, [
             'update_id' => 1001,
@@ -102,7 +98,6 @@ final class StartCommandTest extends TestCase
         ]);
 
         $response->assertOk();
-
         $this->assertTelegramMessageContains(__('user.already_registered'));
         $this->assertTelegramMessageSent($telegramId, __('user.already_registered'));
         $this->assertDatabaseHas(User::class, [
