@@ -57,14 +57,14 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest
 
-      - name: Copy .env for testing
-        run: cp .env.example .env.testing
+      - name: Copy .env.testing to .env
+        run: cp .env.testing .env
 
       - name: Generate application key
-        run: php artisan key:generate --env=.env.testing
+        run: php artisan key:generate
 
       - name: Run database migrations
-        run: php artisan migrate --env=.env.testing --force
+        run: php artisan migrate --force
 
       - name: Run Laravel Pint (style check)
         run: ./vendor/bin/pint --test
@@ -75,7 +75,7 @@ jobs:
         continue-on-error: false
 
       - name: Run Tests
-        run: php artisan test --env=.env.testing --colors=always
+        run: php artisan test --colors=always
         continue-on-error: false
 
       - name: 🎉 All checks passed!
