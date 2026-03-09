@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Pomodoro\State;
 
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSettings;
-use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use Tests\Assertions\TelegramAssertion;
@@ -84,7 +84,7 @@ final class AwaitingCyclesBeforeLongBreakTest extends TestCase
     //
     //        UserState::factory()->createOne([
     //            'user_id' => $user->id,
-    //            'state_value' => UserStateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
+    //            'state_value' => StateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
     //        ]);
     //
     //
@@ -102,7 +102,7 @@ final class AwaitingCyclesBeforeLongBreakTest extends TestCase
     //
     //        $this->assertDatabaseMissing(UserState::class, [
     //            'user_id' => $user->id,
-    //            'state_value' => UserStateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
+    //            'state_value' => StateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
     //        ]);
     //    }
 
@@ -125,7 +125,7 @@ final class AwaitingCyclesBeforeLongBreakTest extends TestCase
 
         UserState::factory()->createOne([
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
+            'state_value' => StateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
         ]);
 
         $this->postJson($this->telegramWebhookUrl, $data)->assertOk();
@@ -160,7 +160,7 @@ final class AwaitingCyclesBeforeLongBreakTest extends TestCase
 
         UserState::factory()->createOne([
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
+            'state_value' => StateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value,
         ]);
 
         $this->postJson($this->telegramWebhookUrl, $data)->assertOk();

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\User\Domain\Enums;
+namespace App\Modules\Pomodoro\Domain\Enums;
 
 use App\Modules\Pomodoro\Application\Handlers\State\AwaitingBreakDurationStateHandler;
 use App\Modules\Pomodoro\Application\Handlers\State\AwaitingCyclesBeforeLongBreakStateHandler;
@@ -8,7 +8,7 @@ use App\Modules\Pomodoro\Application\Handlers\State\AwaitingLongBreakDurationSta
 use App\Modules\Pomodoro\Application\Handlers\State\AwaitingRepeatsCountStateHandler;
 use App\Modules\Pomodoro\Application\Handlers\State\AwaitingWorkDurationStateHandler;
 
-enum UserStateValue: string
+enum StateValue: string
 {
     case AWAITING_WORK_DURATION = 'awaiting_work_duration';
     case AWAITING_BREAK_DURATION = 'awaiting_break_duration';

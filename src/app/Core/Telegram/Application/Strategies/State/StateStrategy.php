@@ -4,7 +4,7 @@ namespace App\Core\Telegram\Application\Strategies\State;
 
 use App\Core\Telegram\Application\DTOs\TelegramUpdateDTO;
 use App\Core\Telegram\Application\Handlers\State\StateHandlerDTO;
-use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +14,7 @@ final class StateStrategy
         private readonly Container $container
     ) {}
 
-    public function execute(UserStateValue $stateValue, TelegramUpdateDTO $data): void
+    public function execute(StateValue $stateValue, TelegramUpdateDTO $data): void
     {
         $handlerClass = $stateValue->getHandler();
 

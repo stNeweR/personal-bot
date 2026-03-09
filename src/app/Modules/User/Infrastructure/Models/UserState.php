@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Infrastructure\Models;
 
-use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use Database\Factories\UserStateFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @class UserState
  *
  * @property int $user_id
- * @property UserStateValue $state_value
+ * @property StateValue $state_value
  */
 final class UserState extends Model
 {
@@ -26,7 +26,7 @@ final class UserState extends Model
     ];
 
     protected $casts = [
-        'state_value' => UserStateValue::class,
+        'state_value' => StateValue::class,
     ];
 
     protected static function newFactory(): UserStateFactory

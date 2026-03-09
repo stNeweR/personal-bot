@@ -4,9 +4,9 @@ namespace App\Modules\Pomodoro\Application\UseCases;
 
 use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
-use App\Modules\User\Domain\Enums\UserStateValue;
 
 final readonly class AddWorkDurationUseCase
 {
@@ -31,6 +31,6 @@ final readonly class AddWorkDurationUseCase
 
             $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.work_duration_updated'));
         }
-        $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_BREAK_DURATION);
+        $this->userAdapter->updateUserState($user->telegram_id, StateValue::AWAITING_BREAK_DURATION);
     }
 }

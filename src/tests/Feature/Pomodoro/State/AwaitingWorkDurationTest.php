@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Pomodoro\State;
 
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSettings;
-use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use Tests\Assertions\TelegramAssertion;
@@ -75,7 +75,7 @@ final class AwaitingWorkDurationTest extends TestCase
 
         UserState::factory()->createOne([
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_WORK_DURATION->value,
+            'state_value' => StateValue::AWAITING_WORK_DURATION->value,
         ]);
 
         $this->postJson($this->telegramWebhookUrl, $data)->assertOk();
@@ -92,7 +92,7 @@ final class AwaitingWorkDurationTest extends TestCase
 
         $this->assertDatabaseHas(UserState::class, [
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_BREAK_DURATION->value,
+            'state_value' => StateValue::AWAITING_BREAK_DURATION->value,
         ]);
     }
 
@@ -114,7 +114,7 @@ final class AwaitingWorkDurationTest extends TestCase
 
         UserState::factory()->createOne([
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_WORK_DURATION->value,
+            'state_value' => StateValue::AWAITING_WORK_DURATION->value,
         ]);
 
         $this->postJson($this->telegramWebhookUrl, $data)->assertOk();
@@ -131,7 +131,7 @@ final class AwaitingWorkDurationTest extends TestCase
 
         $this->assertDatabaseHas(UserState::class, [
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_BREAK_DURATION->value,
+            'state_value' => StateValue::AWAITING_BREAK_DURATION->value,
         ]);
     }
 }

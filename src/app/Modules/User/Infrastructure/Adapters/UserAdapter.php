@@ -2,8 +2,8 @@
 
 namespace App\Modules\User\Infrastructure\Adapters;
 
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
-use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use App\Modules\User\Infrastructure\Repository\UserRepository;
@@ -17,7 +17,7 @@ final readonly class UserAdapter implements UserAdapterInterface
         public UserStateRepository $userStateRepository
     ) {}
 
-    public function updateUserState(int $telegramId, UserStateValue $stateValue): UserState
+    public function updateUserState(int $telegramId, StateValue $stateValue): UserState
     {
         $this->userStateRepository->clearUserStatesByTelegramId($telegramId);
 

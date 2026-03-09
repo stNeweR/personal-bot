@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -18,7 +18,7 @@ final class UserStateFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'state_value' => UserStateValue::values()[array_rand(UserStateValue::values())],
+            'state_value' => StateValue::values()[array_rand(StateValue::values())],
         ];
     }
 }

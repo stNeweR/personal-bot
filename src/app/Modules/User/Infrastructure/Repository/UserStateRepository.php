@@ -2,7 +2,7 @@
 
 namespace App\Modules\User\Infrastructure\Repository;
 
-use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\User\Domain\Repository\UserStateRepositoryInterface;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
@@ -22,7 +22,7 @@ final class UserStateRepository implements UserStateRepositoryInterface
     /**
      * @throws ModelNotFoundException
      */
-    public function createByTelegramId(int $telegramId, UserStateValue $stateValue): UserState
+    public function createByTelegramId(int $telegramId, StateValue $stateValue): UserState
     {
         $user = User::query()->where('telegram_id', $telegramId)->firstOrFail();
 

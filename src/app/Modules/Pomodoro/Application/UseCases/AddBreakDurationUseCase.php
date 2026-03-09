@@ -4,9 +4,9 @@ namespace App\Modules\Pomodoro\Application\UseCases;
 
 use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\Pomodoro\Application\DTOs\UseCaseStateHandlerDTO;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\Pomodoro\Domain\Repository\PomodoroSettingsRepositoryInterface;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
-use App\Modules\User\Domain\Enums\UserStateValue;
 
 final readonly class AddBreakDurationUseCase
 {
@@ -22,7 +22,7 @@ final readonly class AddBreakDurationUseCase
 
         $this->pomodoroSettingsRepository->update($user->id, 'break_duration', (int) $data->message);
 
-        $this->userAdapter->updateUserState($user->telegram_id, UserStateValue::AWAITING_REPEATS_COUNT);
+        $this->userAdapter->updateUserState($user->telegram_id, StateValue::AWAITING_REPEATS_COUNT);
 
         $this->telegramAdapter->sendMessage($user->telegram_id, __('pomodoro.break_duration_saved'));
     }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Pomodoro\Command;
 
-use App\Modules\User\Domain\Enums\UserStateValue;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use Tests\Assertions\TelegramAssertion;
@@ -97,7 +97,7 @@ final class AddPomodoroSettingsTest extends TestCase
 
         $this->assertDatabaseHas(UserState::class, [
             'id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_WORK_DURATION->value,
+            'state_value' => StateValue::AWAITING_WORK_DURATION->value,
         ]);
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Pomodoro\State;
 
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\Pomodoro\Infrastructure\Models\PomodoroSettings;
-use App\Modules\User\Domain\Enums\UserStateValue;
 use App\Modules\User\Infrastructure\Models\User;
 use App\Modules\User\Infrastructure\Models\UserState;
 use Tests\Assertions\TelegramAssertion;
@@ -82,7 +82,7 @@ final class AwaitingRepeatsCountTest extends TestCase
 
         UserState::factory()->createOne([
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_REPEATS_COUNT->value,
+            'state_value' => StateValue::AWAITING_REPEATS_COUNT->value,
         ]);
 
         $this->postJson($this->telegramWebhookUrl, $data)->assertOk();
@@ -99,7 +99,7 @@ final class AwaitingRepeatsCountTest extends TestCase
 
         $this->assertDatabaseHas(UserState::class, [
             'user_id' => $user->id,
-            'state_value' => UserStateValue::AWAITING_LONG_BREAK_DURATION->value,
+            'state_value' => StateValue::AWAITING_LONG_BREAK_DURATION->value,
         ]);
     }
 }

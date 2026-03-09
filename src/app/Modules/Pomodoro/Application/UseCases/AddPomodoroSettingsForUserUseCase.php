@@ -4,8 +4,8 @@ namespace App\Modules\Pomodoro\Application\UseCases;
 
 use App\Core\Telegram\Domain\Contracts\TelegramAdapterInterface;
 use App\Modules\Pomodoro\Application\DTOs\AddPomodoroSettingsDTO;
+use App\Modules\Pomodoro\Domain\Enums\StateValue;
 use App\Modules\User\Domain\Contracts\UserAdapterInterface;
-use App\Modules\User\Domain\Enums\UserStateValue;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Log;
 
@@ -19,7 +19,7 @@ final readonly class AddPomodoroSettingsForUserUseCase
     public function execute(AddPomodoroSettingsDTO $data): void
     {
         try {
-            $this->userAdapter->updateUserState($data->telegramId, UserStateValue::AWAITING_WORK_DURATION);
+            $this->userAdapter->updateUserState($data->telegramId, StateValue::AWAITING_WORK_DURATION);
 
             $this->telegramAdapter->sendMessage(
                 chatId: $data->telegramId,
