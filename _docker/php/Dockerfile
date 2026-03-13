@@ -94,6 +94,9 @@ RUN addgroup -g 1000 app && \
 # Создаем рабочую директорию и устанавливаем права
 RUN mkdir -p /opt/app && chown -R app:app /opt/app
 
+# Создаем директорию vendor с правильными правами для volume
+RUN mkdir -p /opt/app/vendor && chown -R app:app /opt/app/vendor
+
 USER app
 
 WORKDIR /opt/app
