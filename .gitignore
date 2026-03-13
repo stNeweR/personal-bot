@@ -1,3 +1,5 @@
 _db
 .idea
 .zed
+tmp/
+storage/

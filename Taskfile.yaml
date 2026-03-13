@@ -28,7 +28,7 @@ tasks:
   shell:
     desc: Попасть в контейнер php
     cmds:
-      - docker exec -it app sh
+      - docker exec -it bot_app sh
 
   logs:
     desc: Просмотр логов
