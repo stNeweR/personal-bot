@@ -1,31 +1,30 @@
-version: "3"
+version: '3.8'
 
 services:
   nginx:
     image: nginx:latest
-    container_name: nginx
-    ports:
-      - "3000:80"
     volumes:
-      - ./src:/opt/app
-      - ./_docker/nginx/conf.d:/etc/nginx/conf.d
+      - ./src:/var/www
+      - ./_docker/dev/nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 3000:80
     depends_on:
       - app
+    container_name: bot_nginx
 
   app:
     build:
       context: .
-      dockerfile: _docker/php/Dockerfile
-    container_name: app
-    user: "${UID:-1000}:${GID:-1000}"
+      dockerfile: _docker/dev/php/Dockerfile
     volumes:
-      - ./src:/opt/app
+      - ./src:/var/www
+    container_name: bot_app
+    depends_on:
+      - db
 
-  postgres:
-    image: postgres:latest
-    container_name: bot-db
-    ports:
-      - "5434:5432"
+  db:
+    image: postgres:16-alpine
+    restart: always
     volumes:
       - ./_db/postgres:/var/lib/postgresql/data
       - ./_docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -33,4 +32,6 @@ services:
       POSTGRES_DB: bot
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
-      PGDATA: /var/lib/postgresql/data
+    ports:
+      - 5434:5432
+    container_name: bot_db
