@@ -16,5 +16,5 @@ return [
         StateValue::AWAITING_REPEATS_COUNT->value => AwaitingRepeatsCountStateHandler::class,
         StateValue::AWAITING_LONG_BREAK_DURATION->value => AwaitingLongBreakDurationStateHandler::class,
         StateValue::AWAITING_CYCLES_BEFORE_LONG_BREAK->value => AwaitingCyclesBeforeLongBreakStateHandler::class,
-    ]
+    ],
 ];

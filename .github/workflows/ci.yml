@@ -63,7 +63,26 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
 
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          for i in {1..30}; do
+            if pg_isready -h 127.0.0.1 -p 5432 -U postgres; then
+              echo "PostgreSQL is ready"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "PostgreSQL did not become ready in time"
+          exit 1
+
       - name: Run database migrations
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: bot_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: secret
         run: php artisan migrate --force
 
       - name: Run Laravel Pint (style check)
@@ -75,6 +94,13 @@ jobs:
         continue-on-error: false
 
       - name: Run Tests
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: bot_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: secret
         run: php artisan test --colors=always
         continue-on-error: false
 
